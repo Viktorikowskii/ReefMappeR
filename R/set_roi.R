@@ -33,7 +33,7 @@
 #' plot(result$benthic)
 #'
 #' \dontrun{
-#' s2_img <- terra::rast(system.file("extdata", "Sentinel2_2025-08-28_AllBands.tif",
+#' #' s2_img <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 #'                                    package = "ReefMappeR"))
 #' result  <- set_roi(s2 = s2_img)
 #' plot(result$benthic)
@@ -81,15 +81,15 @@ set_roi <- function(
 
   # Load bathymetry from extdata, with fallback for devtools::load_all()
   if (is.null(bathymetry)) {
-    bathy_file <- system.file("extdata", "GEBCO_2024.nc", package = "ReefMappeR")
+    bathy_file <- system.file("extdata", "bathymetry_gbr.tif", package = "ReefMappeR")
 
     if (!file.exists(bathy_file)) {
-      dev_path <- file.path("inst", "extdata", "GEBCO_2024.nc")
+      dev_path <- file.path("inst", "extdata", "bathymetry_gbr.tif")
       if (file.exists(dev_path)) {
         bathy_file <- dev_path
-        message("DEV: Using inst/extdata/GEBCO_2024.nc")
+        message("DEV: Using inst/extdata/bathymetry_gbr.tif")
       } else {
-        stop("GEBCO_2024.nc not found in inst/extdata/.")
+        stop("bathymetry_gbr.tif not found in inst/extdata/.")
       }
     }
 
