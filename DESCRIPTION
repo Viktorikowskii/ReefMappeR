@@ -1,0 +1,19 @@
+Package: ReefMappeR
+Title: Reef Habitat Mapping and Analysis
+Version: 0.1.0
+Authors@R: c(person("Viktoria", "Veith",email = "Viktoria.veith@t-online.de",role  = c("aut", "cre")))
+Description: Tools for cropping, analyzing, and visualizing seagrass, bathymetry, and benthic habitat data for reef ecosystems. Integrates GEBCO, Allen Coral Atlas, and global seagrass datasets.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    terra,
+    sf,
+    ggplot2,
+    ggnewscale,
+    dplyr,
+    patchwork,
+    gt,
+    stringr,
+    graphics

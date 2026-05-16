@@ -1,0 +1,21 @@
+# RStudio files
+^ReefMappeR\.Rproj$
+^\.Rproj\.user$
+^.Rhistory$
+^.RData$
+^.Ruserdata$
+
+# Generated files
+^.*\.tar\.gz$
+^build/
+^docs/
+^man/
+^inst/doc/
+^inst/tests/
+^inst/vignettes/
+
+# Other common ignores
+^LICENSE\.md$
+^\.DS_Store$
+^Thumbs\.db$
+^dev$
