@@ -7,8 +7,7 @@
 compare_habitats_change(ndci_change, threshold = 0.1)
 }
 \arguments{
-\item{ndci_change}{SpatRaster. Output from \code{\link[=assess_reef_change]{assess_reef_change()}},
-representing pixel-wise NDCI difference (t2 - t1).}
+\item{ndci_change}{SpatRaster. Output of \code{\link[=assess_reef_change]{assess_reef_change()}}.}
 
 \item{threshold}{Numeric. Minimum absolute NDCI change to be considered
 significant. Default is 0.1. See Details.}
@@ -17,10 +16,8 @@ significant. Default is 0.1. See Details.}
 Invisible NULL. Called for side effects (plot).
 }
 \description{
-Classifies pixel-wise NDCI change between two time points into three
-categories: increase in chlorophyll-a, no significant change, and decrease
-in chlorophyll-a. The classification is based on a user-defined threshold
-applied to the NDCI difference raster.
+Classifies pixel-wise NDCI change into three categories: increase in
+chlorophyll-a, no significant change, and decrease in chlorophyll-a.
 }
 \details{
 NDCI change is classified into three classes:

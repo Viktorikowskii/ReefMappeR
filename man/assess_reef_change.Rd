@@ -7,15 +7,46 @@
 assess_reef_change(ndci_t1, ndci_t2)
 }
 \arguments{
-\item{ndci_t1}{SpatRaster. NDCI at time 1 (e.g. Summer 2024).}
+\item{ndci_t1}{SpatRaster. NDCI at time 1, output of \code{\link[=calc_ndci]{calc_ndci()}}.}
 
-\item{ndci_t2}{SpatRaster. NDCI at time 2 (e.g. Summer 2025).}
+\item{ndci_t2}{SpatRaster. NDCI at time 2, output of \code{\link[=calc_ndci]{calc_ndci()}}.}
 }
 \value{
-A SpatRaster with pixel-wise NDCI difference (t2 minus t1).
-Positive values indicate increased chlorophyll (degradation),
-negative values indicate decreased chlorophyll (improvement).
+A SpatRaster of pixel-wise NDCI difference (t2 minus t1).
+Positive values indicate increased chlorophyll-a, negative values
+indicate decreased chlorophyll-a. Pass the result to
+\code{\link[=compare_habitats_change]{compare_habitats_change()}} for visualisation.
 }
 \description{
-Assess reef change between two NDCI rasters
+Computes pixel-wise NDCI difference between two time points to detect
+temporal changes in chlorophyll-a concentration over reef areas.
+}
+\details{
+The NDCI difference is calculated as:
+\deqn{\Delta NDCI = NDCI_{t2} - NDCI_{t1}}
+
+If the two rasters do not share the same geometry, \code{ndci_t2} is
+automatically resampled to match \code{ndci_t1} using bilinear
+interpolation. For meaningful change detection, both images should be
+from the same season to minimise phenological differences, and
+pre-processed to surface reflectance (Sentinel-2 Level-2A).
+}
+\examples{
+\dontrun{
+s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
+                                   package = "ReefMappeR"))
+s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+                                   package = "ReefMappeR"))
+change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
+compare_habitats_change(change)
+}
+}
+\references{
+Mishra, S. & Mishra, D.R. (2012). Normalized difference chlorophyll index:
+A novel model for remote sensing of chlorophyll-a concentration in turbid
+productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
+\doi{10.1016/j.rse.2011.10.016}
+}
+\seealso{
+\code{\link[=calc_ndci]{calc_ndci()}}, \code{\link[=compare_habitats_change]{compare_habitats_change()}}
 }

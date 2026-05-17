@@ -1,12 +1,9 @@
 #' Temporal NDCI Change Classification
 #'
-#' Classifies pixel-wise NDCI change between two time points into three
-#' categories: increase in chlorophyll-a, no significant change, and decrease
-#' in chlorophyll-a. The classification is based on a user-defined threshold
-#' applied to the NDCI difference raster.
+#' Classifies pixel-wise NDCI change into three categories: increase in
+#' chlorophyll-a, no significant change, and decrease in chlorophyll-a.
 #'
-#' @param ndci_change SpatRaster. Output from [assess_reef_change()],
-#'   representing pixel-wise NDCI difference (t2 - t1).
+#' @param ndci_change SpatRaster. Output of [assess_reef_change()].
 #' @param threshold Numeric. Minimum absolute NDCI change to be considered
 #'   significant. Default is 0.1. See Details.
 #'
