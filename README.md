@@ -115,15 +115,15 @@ compare_tss_change(change_tss)
 
 | Function | Description |
 |---|---|
-| `set_roi()` | Crop all datasets to a bounding box or Sentinel-2 extent |
-| `plot_habitat_map()` | Two-panel map of benthic habitats and geomorphic zones |
-| `habitat_summary()` | Area and depth statistics as a styled table |
-| `plot_depth_distribution()` | Depth distributions per habitat class as boxplots |
-| `calc_ndci()` | Calculate NDCI from Sentinel-2 bands B4/B5 |
-| `calculate_water_quality()` | Estimate TSS from Sentinel-2 |
-| `assess_reef_change()` | Compute pixel-wise difference between two rasters |
-| `compare_ndci_change()` | Classify and visualise NDCI temporal change |
-| `compare_tss_change()` | Classify and visualise TSS temporal change |
+| `set_roi()` | Defines the region of interest and automatically loads and crops bathymetry, benthic habitat, geomorphic zone, and seagrass data to the specified extent |
+| `plot_habitat_map()` | Creates a two-panel map with GEBCO bathymetry as background and Allen Coral Atlas benthic habitats and geomorphic zones overlaid |
+| `habitat_summary()` | Computes per-class area, percentage cover, and depth statistics for all habitat classes and returns a styled summary table |
+| `plot_depth_distribution()` | Visualises the depth range of each benthic and geomorphic habitat class as boxplots using GEBCO bathymetry |
+| `calc_ndci()` | Calculates the Normalized Difference Chlorophyll Index (NDCI) from Sentinel-2 bands B4 and B5 as a proxy for chlorophyll-a concentration |
+| `calculate_water_quality()` | Estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 surface reflectance bands |
+| `assess_reef_change()` | Computes the pixel-wise difference between two rasters of the same variable at different time points |
+| `compare_ndci_change()` | Classifies NDCI change into three categories and maps areas of chlorophyll-a increase, decrease, and no significant change |
+| `compare_tss_change()` | Classifies TSS change into three categories and maps areas of sediment increase, decrease, and no significant change |
 
 ## Dependencies
 

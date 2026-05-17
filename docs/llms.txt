@@ -9,8 +9,8 @@ ReefMappeR provides a streamlined workflow for researchers and students
 working with reef ecosystem data. Starting from a bounding box or a
 Sentinel-2 satellite image, the package automatically loads and crops
 bathymetry, benthic habitat, geomorphology, and seagrass data to your
-area of interest — and produces publication-ready maps and summary
-statistics.
+area of interest and produces habitat maps, depth statistics, and water
+quality assessments.
 
 For a full tutorial see the [Getting Started
 vignette](https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html).
@@ -145,15 +145,15 @@ Temporal TSS Change Classification for Tongue Reef (2024-2025).
 
 | Function | Description |
 |----|----|
-| [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md) | Crop all datasets to a bounding box or Sentinel-2 extent |
-| [`plot_habitat_map()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_habitat_map.md) | Two-panel map of benthic habitats and geomorphic zones |
-| [`habitat_summary()`](https://viktorikowskii.github.io/ReefMappeR/reference/habitat_summary.md) | Area and depth statistics as a styled table |
-| [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md) | Depth distributions per habitat class as boxplots |
-| [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md) | Calculate NDCI from Sentinel-2 bands B4/B5 |
-| [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md) | Estimate TSS from Sentinel-2 |
-| [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md) | Compute pixel-wise difference between two rasters |
-| [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md) | Classify and visualise NDCI temporal change |
-| [`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md) | Classify and visualise TSS temporal change |
+| [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md) | Defines the region of interest and automatically loads and crops bathymetry, benthic habitat, geomorphic zone, and seagrass data to the specified extent |
+| [`plot_habitat_map()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_habitat_map.md) | Creates a two-panel map with GEBCO bathymetry as background and Allen Coral Atlas benthic habitats and geomorphic zones overlaid |
+| [`habitat_summary()`](https://viktorikowskii.github.io/ReefMappeR/reference/habitat_summary.md) | Computes per-class area, percentage cover, and depth statistics for all habitat classes and returns a styled summary table |
+| [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md) | Visualises the depth range of each benthic and geomorphic habitat class as boxplots using GEBCO bathymetry |
+| [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md) | Calculates the Normalized Difference Chlorophyll Index (NDCI) from Sentinel-2 bands B4 and B5 as a proxy for chlorophyll-a concentration |
+| [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md) | Estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 surface reflectance bands |
+| [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md) | Computes the pixel-wise difference between two rasters of the same variable at different time points |
+| [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md) | Classifies NDCI change into three categories and maps areas of chlorophyll-a increase, decrease, and no significant change |
+| [`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md) | Classifies TSS change into three categories and maps areas of sediment increase, decrease, and no significant change |
 
 ## Dependencies
 
