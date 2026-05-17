@@ -40,6 +40,12 @@ NDCI is calculated as: \deqn{NDCI = \frac{B5 - B4}{B5 + B4}}
 
 Exact chlorophyll-a concentrations require site-specific calibration with
 in-situ measurements.
+
+#' @references
+Mishra, S. & Mishra, D.R. (2012). Normalized difference chlorophyll index:
+A novel model for remote sensing of chlorophyll-a concentration in turbid
+productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
+\doi{10.1016/j.rse.2011.10.016}
 }
 \examples{
 \dontrun{
