@@ -4,7 +4,7 @@ An R package for mapping and analysing reef habitats at the Great Barrier Reef u
 
 ## Overview
 
-ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest — and produces publication-ready maps and summary statistics.
+ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest and produces habitat maps, depth statistics, and water quality assessments.
 
 For a full tutorial see the [Getting Started vignette](https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html).
 
