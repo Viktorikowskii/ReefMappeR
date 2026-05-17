@@ -59,19 +59,19 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest — and produces publication-ready maps and summary statistics.</p>
+<p>For a full tutorial see the <a href="https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html">Getting Started vignette</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install from GitHub</span></span>
-<span><span class="co"># install.packages("devtools")</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Viktorikowskii/ReefMappeR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="data-requirements">Data Requirements<a class="anchor" aria-label="anchor" href="#data-requirements"></a>
+<h2 id="bundled-datasets">Bundled Datasets<a class="anchor" aria-label="anchor" href="#bundled-datasets"></a>
 </h2>
-<p>ReefMappeR ships with bundled datasets for the Great Barrier Reef:</p>
+<p>ReefMappeR ships with the following datasets for the Great Barrier Reef:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -80,48 +80,53 @@
 </colgroup>
 <thead><tr>
 <th>Dataset</th>
+<th>File</th>
 <th>Source</th>
-<th>Bundled</th>
 </tr></thead>
 <tbody>
 <tr>
-<td>Bathymetry (GBR)</td>
-<td>GEBCO 2024</td>
-<td>✅ <code>bathymetry_gbr.tif</code>
-</td>
+<td>Bathymetry</td>
+<td><code>bathymetry_gbr.tif</code></td>
+<td><a href="https://www.gebco.net" class="external-link">GEBCO 2024</a></td>
 </tr>
 <tr>
-<td>Benthic habitat tiles (GBR)</td>
-<td>Allen Coral Atlas</td>
-<td>✅ <code>benthic_gbr_*.tif</code>
-</td>
+<td>Benthic habitat tiles</td>
+<td><code>benthic_gbr_*.tif</code></td>
+<td><a href="https://allencoralatlas.org" class="external-link">Allen Coral Atlas</a></td>
 </tr>
 <tr>
-<td>Geomorphic zone tiles (GBR)</td>
-<td>Allen Coral Atlas</td>
-<td>✅ <code>geomorph_gbr_*.tif</code>
-</td>
+<td>Geomorphic zone tiles</td>
+<td><code>geomorph_gbr_*.tif</code></td>
+<td><a href="https://allencoralatlas.org" class="external-link">Allen Coral Atlas</a></td>
 </tr>
 <tr>
-<td>Seagrass polygons (GBR)</td>
-<td>UNEP-WCMC</td>
-<td>✅ <code>seagrass_gbr.shp</code>
-</td>
+<td>Seagrass polygons</td>
+<td><code>seagrass_gbr.shp</code></td>
+<td><a href="https://www.unep-wcmc.org" class="external-link">UNEP-WCMC</a></td>
+</tr>
+<tr>
+<td>Sentinel-2 (August 2025)</td>
+<td><code>Sentinel2_example.tif</code></td>
+<td><a href="https://dataspace.copernicus.eu" class="external-link">Copernicus</a></td>
+</tr>
+<tr>
+<td>Sentinel-2 (Summer 2024)</td>
+<td><code>Sentinel2_2024_example.tif</code></td>
+<td><a href="https://dataspace.copernicus.eu" class="external-link">Copernicus</a></td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>Note:</strong> The bundled datasets cover the Great Barrier Reef region. For other regions, users need to supply their own data files.</p>
-</blockquote>
+<p>The benthic and geomorphic data are stored as individual tiles. <code><a href="reference/set_roi.html">set_roi()</a></code> automatically identifies and loads only the tiles that overlap with your region of interest.</p>
 </div>
 <div class="section level2">
 <h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
 </h2>
-<pre><code>set_roi()  ──►  plot_habitat_map()
-           └──►  habitat_summary()
-           └──►  plot_depth_distribution()
-           └──►  calc_ndci()  ──►  assess_reef_change()  ──►  compare_habitats_change()
-                 calculate_water_quality()</code></pre>
+<pre><code>set_roi()
+    ├── plot_habitat_map()
+    ├── habitat_summary()
+    ├── plot_depth_distribution()
+    ├── calc_ndci()        ──► assess_reef_change() ──► compare_ndci_change()
+    └── calculate_water_quality() ──► assess_reef_change() ──► compare_tss_change()</code></pre>
 </div>
 <div class="section level2">
 <h2 id="basic-usage">Basic Usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
@@ -132,11 +137,6 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ReefMappeR</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Using a bounding box (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="va">bbox</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150.56</span>, <span class="fl">151.30</span>, <span class="op">-</span><span class="fl">21.51</span>, <span class="op">-</span><span class="fl">20.77</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/set_roi.html">set_roi</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">bbox</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Or using a Sentinel-2 image</span></span>
 <span><span class="va">s2</span>     <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
 <span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/set_roi.html">set_roi</a></span><span class="op">(</span>s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span></span></code></pre></div>
@@ -147,7 +147,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_habitat_map.html">plot_habitat_map</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
-<img src="reference/figures/habitat_map.png" alt="Habitat map showing benthic habitats and geomorphic zones over Tongue Reef, GBR"><div class="figcaption">Habitat map showing benthic habitats and geomorphic zones over Tongue Reef, GBR</div>
+<img src="reference/figures/habitat_map.png" alt="Two-panel habitat map of Tongue Reef showing benthic habitats and geomorphic zones with bathymetry as background."><div class="figcaption">Two-panel habitat map of Tongue Reef showing benthic habitats and geomorphic zones with bathymetry as background.</div>
 </div>
 </div>
 <div class="section level3">
@@ -155,49 +155,55 @@
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/habitat_summary.html">habitat_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
-<span><span class="va">out</span><span class="op">$</span><span class="va">table</span>          <span class="co"># styled gt summary table</span></span>
-<span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">benthic</span>  <span class="co"># raw benthic statistics</span></span></code></pre></div>
+<span><span class="va">out</span><span class="op">$</span><span class="va">table</span></span></code></pre></div>
 <div class="float">
-<img src="reference/figures/habitat_summary_table.png" alt="Habitat summary table"><div class="figcaption">Habitat summary table</div>
-</div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_depth_distribution.html">plot_depth_distribution</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="reference/figures/depth_distribution.png" alt="Depth distributions by habitat class"><div class="figcaption">Depth distributions by habitat class</div>
+<img src="reference/figures/habitat_summary_table.png" alt="Habitat summary table showing area, cover and depth statistics per class."><div class="figcaption">Habitat summary table showing area, cover and depth statistics per class.</div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_4-analyse-water-quality-from-sentinel-2">4. Analyse water quality from Sentinel-2<a class="anchor" aria-label="anchor" href="#id_4-analyse-water-quality-from-sentinel-2"></a>
+<h3 id="id_4-visualise-depth-distributions">4. Visualise depth distributions<a class="anchor" aria-label="anchor" href="#id_4-visualise-depth-distributions"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_depth_distribution.html">plot_depth_distribution</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="reference/figures/depth_distribution.png" alt="Depth distributions by habitat class."><div class="figcaption">Depth distributions by habitat class.</div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="id_5-analyse-water-quality-from-sentinel-2">5. Analyse water quality from Sentinel-2<a class="anchor" aria-label="anchor" href="#id_5-analyse-water-quality-from-sentinel-2"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s2</span>   <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
 <span>                                 package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># NDCI — Chlorophyll-a indicator</span></span>
-<span><span class="va">ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span>
+<span><span class="va">tss</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
-<img src="reference/figures/ndci.png" alt="NDCI map of Tongue Reef, GBR"><div class="figcaption">NDCI map of Tongue Reef, GBR</div>
+<img src="reference/figures/ndci.png" alt="NDCI map of Tongue Reef (August 2025)."><div class="figcaption">NDCI map of Tongue Reef (August 2025).</div>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Total Suspended Sediments</span></span>
-<span><span class="va">tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
-<img src="reference/figures/tss.png" alt="TSS map of Tongue Reef, GBR"><div class="figcaption">TSS map of Tongue Reef, GBR</div>
+<img src="reference/figures/tss.png" alt="TSS map of Tongue Reef (August 2025)."><div class="figcaption">TSS map of Tongue Reef (August 2025).</div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_5-detect-reef-change-over-time">5. Detect reef change over time<a class="anchor" aria-label="anchor" href="#id_5-detect-reef-change-over-time"></a>
+<h3 id="id_6-detect-temporal-change">6. Detect temporal change<a class="anchor" aria-label="anchor" href="#id_6-detect-temporal-change"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s2_24</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_2024_example.tif"</span>,</span>
-<span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">s2_25</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
-<span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s2_24</span>   <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_2024_example.tif"</span>,</span>
+<span>                                    package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">s2_25</span>   <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
+<span>                                    package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span>, <span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">compare_habitats_change</span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">change_ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span>, <span class="fu"><a href="reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/compare_ndci_change.html">compare_ndci_change</a></span><span class="op">(</span><span class="va">change_ndci</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">change_tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="fu"><a href="reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span>,</span>
+<span>                                  <span class="fu"><a href="reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/compare_tss_change.html">compare_tss_change</a></span><span class="op">(</span><span class="va">change_tss</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
-<img src="reference/figures/ndci_change.png" alt="Temporal NDCI Change Classification"><div class="figcaption">Temporal NDCI Change Classification</div>
+<img src="reference/figures/ndci_change.png" alt="Temporal NDCI Change Classification for Tongue Reef (2024-2025)."><div class="figcaption">Temporal NDCI Change Classification for Tongue Reef (2024-2025).</div>
+</div>
+<div class="float">
+<img src="reference/figures/tss_change.png" alt="Temporal TSS Change Classification for Tongue Reef (2024-2025)."><div class="figcaption">Temporal TSS Change Classification for Tongue Reef (2024-2025).</div>
 </div>
 </div>
 </div>
@@ -224,7 +230,7 @@
 </tr>
 <tr>
 <td><code><a href="reference/habitat_summary.html">habitat_summary()</a></code></td>
-<td>Area statistics and depth distributions as a table</td>
+<td>Area and depth statistics as a styled table</td>
 </tr>
 <tr>
 <td><code><a href="reference/plot_depth_distribution.html">plot_depth_distribution()</a></code></td>
@@ -240,11 +246,15 @@
 </tr>
 <tr>
 <td><code><a href="reference/assess_reef_change.html">assess_reef_change()</a></code></td>
-<td>Compute pixel-wise NDCI difference between two dates</td>
+<td>Compute pixel-wise difference between two rasters</td>
 </tr>
 <tr>
-<td><code>compare_habitats_change()</code></td>
-<td>Classify and visualise NDCI change</td>
+<td><code><a href="reference/compare_ndci_change.html">compare_ndci_change()</a></code></td>
+<td>Classify and visualise NDCI temporal change</td>
+</tr>
+<tr>
+<td><code><a href="reference/compare_tss_change.html">compare_tss_change()</a></code></td>
+<td>Classify and visualise TSS temporal change</td>
 </tr>
 </tbody>
 </table>
@@ -252,7 +262,7 @@
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h2>
-<p>ReefMappeR depends on: <code>terra</code>, <code>sf</code>, <code>ggplot2</code>, <code>ggnewscale</code>, <code>dplyr</code>, <code>patchwork</code>, <code>gt</code>, <code>stringr</code>.</p>
+<p><code>terra</code>, <code>sf</code>, <code>ggplot2</code>, <code>ggnewscale</code>, <code>dplyr</code>, <code>patchwork</code>, <code>gt</code>, <code>stringr</code></p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>

@@ -12,35 +12,42 @@ bathymetry, benthic habitat, geomorphology, and seagrass data to your
 area of interest — and produces publication-ready maps and summary
 statistics.
 
+For a full tutorial see the [Getting Started
+vignette](https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html).
+
 ## Installation
 
 ``` r
-# Install from GitHub
 # install.packages("devtools")
 devtools::install_github("Viktorikowskii/ReefMappeR")
 ```
 
-## Data Requirements
+## Bundled Datasets
 
-ReefMappeR ships with bundled datasets for the Great Barrier Reef:
+ReefMappeR ships with the following datasets for the Great Barrier Reef:
 
-| Dataset                     | Source            | Bundled                 |
-|-----------------------------|-------------------|-------------------------|
-| Bathymetry (GBR)            | GEBCO 2024        | ✅ `bathymetry_gbr.tif` |
-| Benthic habitat tiles (GBR) | Allen Coral Atlas | ✅ `benthic_gbr_*.tif`  |
-| Geomorphic zone tiles (GBR) | Allen Coral Atlas | ✅ `geomorph_gbr_*.tif` |
-| Seagrass polygons (GBR)     | UNEP-WCMC         | ✅ `seagrass_gbr.shp`   |
+| Dataset | File | Source |
+|----|----|----|
+| Bathymetry | `bathymetry_gbr.tif` | [GEBCO 2024](https://www.gebco.net) |
+| Benthic habitat tiles | `benthic_gbr_*.tif` | [Allen Coral Atlas](https://allencoralatlas.org) |
+| Geomorphic zone tiles | `geomorph_gbr_*.tif` | [Allen Coral Atlas](https://allencoralatlas.org) |
+| Seagrass polygons | `seagrass_gbr.shp` | [UNEP-WCMC](https://www.unep-wcmc.org) |
+| Sentinel-2 (August 2025) | `Sentinel2_example.tif` | [Copernicus](https://dataspace.copernicus.eu) |
+| Sentinel-2 (Summer 2024) | `Sentinel2_2024_example.tif` | [Copernicus](https://dataspace.copernicus.eu) |
 
-> **Note:** The bundled datasets cover the Great Barrier Reef region.
-> For other regions, users need to supply their own data files.
+The benthic and geomorphic data are stored as individual tiles.
+[`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md)
+automatically identifies and loads only the tiles that overlap with your
+region of interest.
 
 ## Workflow
 
-    set_roi()  ──►  plot_habitat_map()
-               └──►  habitat_summary()
-               └──►  plot_depth_distribution()
-               └──►  calc_ndci()  ──►  assess_reef_change()  ──►  compare_habitats_change()
-                     calculate_water_quality()
+    set_roi()
+        ├── plot_habitat_map()
+        ├── habitat_summary()
+        ├── plot_depth_distribution()
+        ├── calc_ndci()        ──► assess_reef_change() ──► compare_ndci_change()
+        └── calculate_water_quality() ──► assess_reef_change() ──► compare_tss_change()
 
 ## Basic Usage
 
@@ -49,11 +56,6 @@ ReefMappeR ships with bundled datasets for the Great Barrier Reef:
 ``` r
 library(ReefMappeR)
 
-# Using a bounding box (xmin, xmax, ymin, ymax)
-bbox   <- c(150.56, 151.30, -21.51, -20.77)
-result <- set_roi(bbox = bbox)
-
-# Or using a Sentinel-2 image
 s2     <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                    package = "ReefMappeR"))
 result <- set_roi(s2 = s2)
@@ -65,72 +67,79 @@ result <- set_roi(s2 = s2)
 plot_habitat_map(result)
 ```
 
-![Habitat map showing benthic habitats and geomorphic zones over Tongue
-Reef, GBR](reference/figures/habitat_map.png)
+![Two-panel habitat map of Tongue Reef showing benthic habitats and
+geomorphic zones with bathymetry as
+background.](reference/figures/habitat_map.png)
 
-Habitat map showing benthic habitats and geomorphic zones over Tongue
-Reef, GBR
+Two-panel habitat map of Tongue Reef showing benthic habitats and
+geomorphic zones with bathymetry as background.
 
 ### 3. Summarise habitat statistics
 
 ``` r
 out <- habitat_summary(result)
-out$table          # styled gt summary table
-out$stats$benthic  # raw benthic statistics
+out$table
 ```
 
-![Habitat summary table](reference/figures/habitat_summary_table.png)
+![Habitat summary table showing area, cover and depth statistics per
+class.](reference/figures/habitat_summary_table.png)
 
-Habitat summary table
+Habitat summary table showing area, cover and depth statistics per
+class.
+
+### 4. Visualise depth distributions
 
 ``` r
 plot_depth_distribution(result)
 ```
 
 ![Depth distributions by habitat
-class](reference/figures/depth_distribution.png)
+class.](reference/figures/depth_distribution.png)
 
-Depth distributions by habitat class
+Depth distributions by habitat class.
 
-### 4. Analyse water quality from Sentinel-2
+### 5. Analyse water quality from Sentinel-2
 
 ``` r
 s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                  package = "ReefMappeR"))
-
-# NDCI — Chlorophyll-a indicator
 ndci <- calc_ndci(s2)
+tss  <- calculate_water_quality(s2)
 ```
 
-![NDCI map of Tongue Reef, GBR](reference/figures/ndci.png)
+![NDCI map of Tongue Reef (August 2025).](reference/figures/ndci.png)
 
-NDCI map of Tongue Reef, GBR
+NDCI map of Tongue Reef (August 2025).
+
+![TSS map of Tongue Reef (August 2025).](reference/figures/tss.png)
+
+TSS map of Tongue Reef (August 2025).
+
+### 6. Detect temporal change
 
 ``` r
-# Total Suspended Sediments
-tss <- calculate_water_quality(s2)
+s2_24   <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
+                                    package = "ReefMappeR"))
+s2_25   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+                                    package = "ReefMappeR"))
+
+change_ndci <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
+compare_ndci_change(change_ndci)
+
+change_tss <- assess_reef_change(calculate_water_quality(s2_24),
+                                  calculate_water_quality(s2_25))
+compare_tss_change(change_tss)
 ```
 
-![TSS map of Tongue Reef, GBR](reference/figures/tss.png)
+![Temporal NDCI Change Classification for Tongue Reef
+(2024-2025).](reference/figures/ndci_change.png)
 
-TSS map of Tongue Reef, GBR
+Temporal NDCI Change Classification for Tongue Reef (2024-2025).
 
-### 5. Detect reef change over time
+![Temporal TSS Change Classification for Tongue Reef
+(2024-2025).](reference/figures/tss_change.png)
 
-``` r
-s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
-                                   package = "ReefMappeR"))
-s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
-                                   package = "ReefMappeR"))
-
-change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
-compare_habitats_change(change)
-```
-
-![Temporal NDCI Change
-Classification](reference/figures/ndci_change.png)
-
-Temporal NDCI Change Classification
+Temporal TSS Change Classification for Tongue Reef (2024-2025).
 
 ## Functions
 
@@ -138,17 +147,18 @@ Temporal NDCI Change Classification
 |----|----|
 | [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md) | Crop all datasets to a bounding box or Sentinel-2 extent |
 | [`plot_habitat_map()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_habitat_map.md) | Two-panel map of benthic habitats and geomorphic zones |
-| [`habitat_summary()`](https://viktorikowskii.github.io/ReefMappeR/reference/habitat_summary.md) | Area statistics and depth distributions as a table |
+| [`habitat_summary()`](https://viktorikowskii.github.io/ReefMappeR/reference/habitat_summary.md) | Area and depth statistics as a styled table |
 | [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md) | Depth distributions per habitat class as boxplots |
 | [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md) | Calculate NDCI from Sentinel-2 bands B4/B5 |
 | [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md) | Estimate TSS from Sentinel-2 |
-| [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md) | Compute pixel-wise NDCI difference between two dates |
-| `compare_habitats_change()` | Classify and visualise NDCI change |
+| [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md) | Compute pixel-wise difference between two rasters |
+| [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md) | Classify and visualise NDCI temporal change |
+| [`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md) | Classify and visualise TSS temporal change |
 
 ## Dependencies
 
-ReefMappeR depends on: `terra`, `sf`, `ggplot2`, `ggnewscale`, `dplyr`,
-`patchwork`, `gt`, `stringr`.
+`terra`, `sf`, `ggplot2`, `ggnewscale`, `dplyr`, `patchwork`, `gt`,
+`stringr`
 
 ## License
 
