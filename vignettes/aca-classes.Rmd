@@ -21,7 +21,7 @@ Full methodology: [allencoralatlas.org/methods](https://allencoralatlas.org/meth
 
 ## Geomorphic Zones
 
-```{r geomorph_table, echo=FALSE}
+```{r geomorph_table, echo=FALSE, results='asis'}
 geomorph <- data.frame(
   Value = c(11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25),
   Colour = c("#77d0fc", "#2ca2f9", "#c5a7cb", "#92739d", "#614272",
@@ -32,27 +32,32 @@ geomorph <- data.frame(
             "Back Reef Slope", "Patch Reef"),
   Description = c(
     "A shallow, enclosed or semi-enclosed, sheltered, shallow-bottomed area dominated by sediments.",
-    "A sheltered, broad body of water, semi- or fully enclosed by reefs. Variable depth (shallower than surrounding ocean) with soft bottom dominated by reef sediment.",
+    "A sheltered, broad body of water, semi- or fully enclosed by reefs. Variable depth with soft bottom dominated by reef sediment.",
     "A low-energy, sediment-dominated, horizontal to gently sloping platform behind the Outer Reef Flat.",
     "Adjoins the seaward margin of the reef; a planar, broad and shallow platform with strong wave-driven zonation.",
-    "A zone marking the boundary between the reef flat and reef slope. Typically shallow and characterised by highest wave energy absorption.",
-    "A broad, flat, shallow to semi-exposed area of fringing reef directly connected to land on one side and exposed to freshwater runoff, nutrients and sediments.",
-    "A submerged, sloping area extending into deep water, sheltered from strong directional prevailing wind or current by land or opposing reef structures.",
-    "A submerged, sloping area extending from the reef crest (or plateau) toward the shelf edge. Windward-facing or in any direction when no prevailing wind or current.",
+    "A zone marking the boundary between the reef flat and reef slope. Typically shallow with highest wave energy absorption.",
+    "A broad, flat area of fringing reef directly connected to land, exposed to freshwater runoff, nutrients and sediments.",
+    "A submerged, sloping area extending into deep water, sheltered from prevailing wind or current.",
+    "A submerged, sloping area extending from the reef crest toward the shelf edge.",
     "A deeper, submerged reef feature with hard bottom, oriented horizontally or gently sloping seaward.",
-    "A complex, inner, often gently sloping reef zone behind the Reef Flat. Variable depth, sheltered, sediment-dominated and often interrupted by coral outcrops.",
-    "A small, free-standing to semi-free-standing coral reef within a lagoon, rising from a sandy area."
+    "A complex, inner, gently sloping reef zone behind the Reef Flat, sediment-dominated with coral outcrops.",
+    "A small, free-standing coral reef within a lagoon, rising from a sandy area."
   )
 )
 
-knitr::kable(geomorph, col.names = c("Value", "Colour (hex)", "Class", "Description"))
+colour_cells <- sprintf('<td style="background-color:%s; width:40px;">&nbsp;</td>', geomorph$Colour)
+rows <- sprintf("<tr><td>%s</td>%s<td>%s</td><td>%s</td></tr>",
+                geomorph$Value, colour_cells, geomorph$Class, geomorph$Description)
+cat('<table><thead><tr><th>Value</th><th>Colour</th><th>Class</th><th>Description</th></tr></thead><tbody>',
+    paste(rows, collapse = "\n"),
+    '</tbody></table>')
 ```
 
 ---
 
 ## Benthic Habitats
 
-```{r benthic_table, echo=FALSE}
+```{r benthic_table, echo=FALSE, results='asis'}
 benthic <- data.frame(
   Value = c(11, 12, 13, 14, 15, 18),
   Colour = c("#ffffbe", "#e0d05e", "#b19c3a", "#668438", "#ff6161", "#9bcc4f"),
@@ -67,7 +72,12 @@ benthic <- data.frame(
   )
 )
 
-knitr::kable(benthic, col.names = c("Value", "Colour (hex)", "Class", "Description"))
+colour_cells <- sprintf('<td style="background-color:%s; width:40px;">&nbsp;</td>', benthic$Colour)
+rows <- sprintf("<tr><td>%s</td>%s<td>%s</td><td>%s</td></tr>",
+                benthic$Value, colour_cells, benthic$Class, benthic$Description)
+cat('<table><thead><tr><th>Value</th><th>Colour</th><th>Class</th><th>Description</th></tr></thead><tbody>',
+    paste(rows, collapse = "\n"),
+    '</tbody></table>')
 ```
 
 ---
