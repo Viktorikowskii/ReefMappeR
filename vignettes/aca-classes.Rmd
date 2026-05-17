@@ -1,0 +1,81 @@
+---
+title: "Allen Coral Atlas Class Descriptions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Allen Coral Atlas Class Descriptions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+This page provides the full class descriptions and colour schemes used by 
+ReefMappeR for benthic habitat and geomorphic zone mapping, following the 
+[Allen Coral Atlas](https://allencoralatlas.org) classification system.
+
+Full methodology: [allencoralatlas.org/methods](https://allencoralatlas.org/methods/)
+
+---
+
+## Geomorphic Zones
+
+```{r geomorph_table, echo=FALSE}
+geomorph <- data.frame(
+  Value = c(11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25),
+  Colour = c("#77d0fc", "#2ca2f9", "#c5a7cb", "#92739d", "#614272",
+             "#fbdefb", "#10bda6", "#288471", "#cd6812", "#befbff", "#ffba15"),
+  Class = c("Shallow Lagoon", "Deep Lagoon", "Inner Reef Flat",
+            "Outer Reef Flat", "Reef Crest", "Terrestrial Reef Flat",
+            "Sheltered Reef Slope", "Reef Slope", "Plateau",
+            "Back Reef Slope", "Patch Reef"),
+  Description = c(
+    "A shallow, enclosed or semi-enclosed, sheltered, shallow-bottomed area dominated by sediments.",
+    "A sheltered, broad body of water, semi- or fully enclosed by reefs. Variable depth (shallower than surrounding ocean) with soft bottom dominated by reef sediment.",
+    "A low-energy, sediment-dominated, horizontal to gently sloping platform behind the Outer Reef Flat.",
+    "Adjoins the seaward margin of the reef; a planar, broad and shallow platform with strong wave-driven zonation.",
+    "A zone marking the boundary between the reef flat and reef slope. Typically shallow and characterised by highest wave energy absorption.",
+    "A broad, flat, shallow to semi-exposed area of fringing reef directly connected to land on one side and exposed to freshwater runoff, nutrients and sediments.",
+    "A submerged, sloping area extending into deep water, sheltered from strong directional prevailing wind or current by land or opposing reef structures.",
+    "A submerged, sloping area extending from the reef crest (or plateau) toward the shelf edge. Windward-facing or in any direction when no prevailing wind or current.",
+    "A deeper, submerged reef feature with hard bottom, oriented horizontally or gently sloping seaward.",
+    "A complex, inner, often gently sloping reef zone behind the Reef Flat. Variable depth, sheltered, sediment-dominated and often interrupted by coral outcrops.",
+    "A small, free-standing to semi-free-standing coral reef within a lagoon, rising from a sandy area."
+  )
+)
+
+knitr::kable(geomorph, col.names = c("Value", "Colour (hex)", "Class", "Description"))
+```
+
+---
+
+## Benthic Habitats
+
+```{r benthic_table, echo=FALSE}
+benthic <- data.frame(
+  Value = c(11, 12, 13, 14, 15, 18),
+  Colour = c("#ffffbe", "#e0d05e", "#b19c3a", "#668438", "#ff6161", "#9bcc4f"),
+  Class = c("Sand", "Rubble", "Rock", "Seagrass", "Coral/Algae", "Microalgal Mats"),
+  Description = c(
+    "A soft substrate dominated primarily by fine, unconsolidated sediments.",
+    "A habitat of loose, coarse fragments of broken reef material.",
+    "Any exposed surface of hard, bare substrate.",
+    "Habitats where seagrass is the dominant biota.",
+    "Any hard substrate area where living corals and/or algae are growing.",
+    "Visible accumulations of microscopic algae within sandy sediments."
+  )
+)
+
+knitr::kable(benthic, col.names = c("Value", "Colour (hex)", "Class", "Description"))
+```
+
+---
+
+## Reference
+
+Allen Coral Atlas (2020). Coral reefs of the world. <https://allencoralatlas.org>
+
+Lyons, M.B. et al. (2020). Mapping the world's coral reefs using a global 
+multiscale earth observation framework. *Remote Sensing in Ecology and 
+Conservation*, 6(4), 557--568. <https://doi.org/10.1002/rse2.157>
