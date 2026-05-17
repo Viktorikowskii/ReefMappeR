@@ -1,4 +1,4 @@
-# ReefMappeR <a href="https://viktorikowskii.github.io/ReefMappeR/"><img src="man/figures/logo.png" align="right" height="112" alt="ReefMappeR website" /></a>
+# ReefMappeR <a href="https://viktorikowskii.github.io/ReefMappeR/"><img src="man/figures/logo.png" align="right" height="134" alt="ReefMappeR website" /></a>
 An R package for mapping and analysing reef habitats at the Great Barrier Reef using satellite remote sensing and open marine datasets.
 
 ## Overview
