@@ -14,7 +14,7 @@ Invisibly returns a \code{patchwork} plot object. The plot is printed
 automatically.
 }
 \description{
-Produces violin plots showing the depth distribution of benthic and
+Produces boxplots showing the depth distribution of benthic and
 geomorphic habitat classes, and optionally a histogram for seagrass depth,
 from the output of \code{\link[=set_roi]{set_roi()}}.
 }
