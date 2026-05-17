@@ -1,6 +1,6 @@
 #' Plot depth distributions by habitat class
 #'
-#' Produces violin plots showing the depth distribution of benthic and
+#' Produces boxplots showing the depth distribution of benthic and
 #' geomorphic habitat classes, and optionally a histogram for seagrass depth,
 #' from the output of [set_roi()].
 #'
@@ -80,50 +80,52 @@ plot_depth_distribution <- function(result) {
 
   roi_coords <- round(as.vector(terra::ext(result$benthic)), 3)
 
-  # ── Benthic depth violin plot ─────────────────────────────────────────────
+  # ── Benthic depth boxplot ─────────────────────────────────────────────────
   p_benthic <- ggplot2::ggplot(
     benthic_combined |> dplyr::filter(!is.na(class_id), !is.na(depth), !is.na(class_label)),
     ggplot2::aes(x = class_label, y = depth, fill = class_id)
   ) +
-    ggplot2::geom_violin(alpha = 0.8, colour = "grey30", linewidth = 0.3) +
     ggplot2::geom_boxplot(
-      width = 0.08, outlier.shape = NA,
-      colour = "grey20", fill = "white", linewidth = 0.3
+      outlier.shape = NA,
+      colour        = "grey20",
+      linewidth     = 0.3
     ) +
     ggplot2::scale_fill_manual(values = benthic_colors, guide = "none") +
     ggplot2::scale_y_continuous(
-      breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
+      limits       = c(-50, 0),
+      breaks       = seq(-50, 0, by = 10),
       minor_breaks = NULL
     ) +
-    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 8)) +
+    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10)) +
     ggplot2::labs(title = "Benthic classes", x = NULL, y = "Depth (m)") +
     ggplot2::theme_minimal(base_size = 10) +
     ggplot2::theme(
       plot.title  = ggplot2::element_text(face = "bold"),
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 8)
     )
 
-  # ── Geomorphic depth violin plot ──────────────────────────────────────────
+  # ── Geomorphic depth boxplot ──────────────────────────────────────────────
   p_geomorph <- ggplot2::ggplot(
     geomorph_combined |> dplyr::filter(!is.na(class_id), !is.na(depth), !is.na(class_label)),
     ggplot2::aes(x = class_label, y = depth, fill = class_id)
   ) +
-    ggplot2::geom_violin(alpha = 0.8, colour = "grey30", linewidth = 0.3) +
     ggplot2::geom_boxplot(
-      width = 0.08, outlier.shape = NA,
-      colour = "grey20", fill = "white", linewidth = 0.3
+      outlier.shape = NA,
+      colour        = "grey20",
+      linewidth     = 0.3
     ) +
     ggplot2::scale_fill_manual(values = geomorph_colors, guide = "none") +
     ggplot2::scale_y_continuous(
-      breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
+      limits       = c(-50, 0),
+      breaks       = seq(-50, 0, by = 10),
       minor_breaks = NULL
     ) +
-    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 8)) +
+    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10)) +
     ggplot2::labs(title = "Geomorphic classes", x = NULL, y = "Depth (m)") +
     ggplot2::theme_minimal(base_size = 10) +
     ggplot2::theme(
       plot.title  = ggplot2::element_text(face = "bold"),
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 8)
     )
 
   # ── Seagrass depth histogram (optional) ───────────────────────────────────
