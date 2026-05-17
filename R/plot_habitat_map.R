@@ -15,6 +15,23 @@
 #'
 #' @return A patchwork/ggplot2 object combining both panels.
 #'
+#'#' @details
+#' Benthic and geomorphic classifications follow the Allen Coral Atlas (ACA)
+#' global mapping scheme. The benthic layer covers areas shallower than 10 m,
+#' the geomorphic layer areas shallower than 15 m. Auto-aggregation reduces
+#' memory usage by downsampling large rasters before plotting; categorical
+#' layers use modal aggregation to preserve class integrity.
+#'
+#' @references
+#' Allen Coral Atlas (2020). Coral reefs of the world.
+#' \url{https://allencoralatlas.org}
+#'
+#' Lyons, M.B. et al. (2020). Mapping the world's coral reefs using a global
+#' multiscale earth observation framework. \emph{Remote Sensing in Ecology
+#' and Conservation}, 6(4), 557--568. \doi{10.1002/rse2.157}
+#'
+#' @seealso [set_roi()], [habitat_summary()], [plot_depth_distribution()]
+#'
 #' @importFrom terra focal aggregate resample rast ext nrow ncol crs as.data.frame res
 #' @importFrom sf st_as_sf
 #' @import ggplot2 dplyr ggnewscale patchwork
