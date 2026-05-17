@@ -1,5 +1,4 @@
-# ReefMappeR
-
+# ReefMappeR <a href="https://viktorikowskii.github.io/ReefMappeR/"><img src="man/figures/logo.png" align="right" height="139" alt="ReefMappeR website" /></a>
 An R package for mapping and analysing reef habitats at the Great Barrier Reef using satellite remote sensing and open marine datasets.
 
 ## Overview
@@ -128,6 +127,10 @@ compare_tss_change(change_tss)
 ## Dependencies
 
 `terra`, `sf`, `ggplot2`, `ggnewscale`, `dplyr`, `patchwork`, `gt`, `stringr`
+
+## Acknowledgements
+
+This package was developed as part of the course *Introduction to Programming and Statistics for Remote Sensing and GIS* in the M.Sc. [EAGLE](https://eagle-science.org/) program at the University of Würzburg.
 
 ## License
 
