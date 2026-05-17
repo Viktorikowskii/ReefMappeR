@@ -14,7 +14,9 @@
   : Side-by-side habitat maps: benthic habitats and geomorphology
 - [`habitat_summary()`](https://viktorikowskii.github.io/ReefMappeR/reference/habitat_summary.md)
   : Habitat statistics summary for a region of interest
-- [`compare_habitats_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_habitats_change.md)
-  : Temporal NDCI Change Classification
 - [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md)
   : Plot depth distributions by habitat class
+- [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md)
+  : Temporal NDCI Change Classification
+- [`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md)
+  : Temporal TSS Change Classification

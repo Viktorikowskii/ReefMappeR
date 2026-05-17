@@ -143,7 +143,7 @@ Temporal NDCI Change Classification
 | [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md) | Calculate NDCI from Sentinel-2 bands B4/B5 |
 | [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md) | Estimate TSS from Sentinel-2 |
 | [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md) | Compute pixel-wise NDCI difference between two dates |
-| [`compare_habitats_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_habitats_change.md) | Classify and visualise NDCI change |
+| `compare_habitats_change()` | Classify and visualise NDCI change |
 
 ## Dependencies
 

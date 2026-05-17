@@ -1,6 +1,6 @@
 # Plot depth distributions by habitat class
 
-Produces violin plots showing the depth distribution of benthic and
+Produces boxplots showing the depth distribution of benthic and
 geomorphic habitat classes, and optionally a histogram for seagrass
 depth, from the output of
 [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md).

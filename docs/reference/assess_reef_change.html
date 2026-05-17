@@ -62,10 +62,10 @@ temporal changes in chlorophyll-a concentration over reef areas.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A SpatRaster of pixel-wise NDCI difference (t2 minus t1).
-Positive values indicate increased chlorophyll-a, negative values
-indicate decreased chlorophyll-a. Pass the result to
-<code><a href="compare_habitats_change.html">compare_habitats_change()</a></code> for visualisation.</p>
+    <p>A SpatRaster of pixel-wise difference (t2 minus t1).
+Positive values indicate an increase, negative values a decrease.
+Pass the result to <code><a href="compare_ndci_change.html">compare_ndci_change()</a></code> or <code><a href="compare_tss_change.html">compare_tss_change()</a></code>
+for visualisation.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -86,7 +86,7 @@ productive waters. <em>Remote Sensing of Environment</em>, 117, 394–406.
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="calc_ndci.html">calc_ndci()</a></code>, <code><a href="compare_habitats_change.html">compare_habitats_change()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="calc_ndci.html">calc_ndci()</a></code>, <code><a href="compare_ndci_change.html">compare_ndci_change()</a></code>, <code><a href="compare_tss_change.html">compare_tss_change()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -97,7 +97,7 @@ productive waters. <em>Remote Sensing of Environment</em>, 117, 394–406.
 <span class="r-in"><span><span class="va">s2_25</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span></span>
 <span class="r-in"><span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">change</span> <span class="op">&lt;-</span> <span class="fu">assess_reef_change</span><span class="op">(</span><span class="fu"><a href="calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span>, <span class="fu"><a href="calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="compare_habitats_change.html">compare_habitats_change</a></span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compare_habitats_change</span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

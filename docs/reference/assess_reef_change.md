@@ -23,10 +23,11 @@ assess_reef_change(ndci_t1, ndci_t2)
 
 ## Value
 
-A SpatRaster of pixel-wise NDCI difference (t2 minus t1). Positive
-values indicate increased chlorophyll-a, negative values indicate
-decreased chlorophyll-a. Pass the result to
-[`compare_habitats_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_habitats_change.md)
+A SpatRaster of pixel-wise difference (t2 minus t1). Positive values
+indicate an increase, negative values a decrease. Pass the result to
+[`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md)
+or
+[`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md)
 for visualisation.
 
 ## Details
@@ -51,7 +52,8 @@ in turbid productive waters. *Remote Sensing of Environment*, 117,
 ## See also
 
 [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md),
-[`compare_habitats_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_habitats_change.md)
+[`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md),
+[`compare_tss_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_tss_change.md)
 
 ## Examples
 
