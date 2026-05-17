@@ -12,10 +12,10 @@ assess_reef_change(ndci_t1, ndci_t2)
 \item{ndci_t2}{SpatRaster. NDCI at time 2, output of \code{\link[=calc_ndci]{calc_ndci()}}.}
 }
 \value{
-A SpatRaster of pixel-wise NDCI difference (t2 minus t1).
-Positive values indicate increased chlorophyll-a, negative values
-indicate decreased chlorophyll-a. Pass the result to
-\code{\link[=compare_habitats_change]{compare_habitats_change()}} for visualisation.
+A SpatRaster of pixel-wise difference (t2 minus t1).
+Positive values indicate an increase, negative values a decrease.
+Pass the result to \code{\link[=compare_ndci_change]{compare_ndci_change()}} or \code{\link[=compare_tss_change]{compare_tss_change()}}
+for visualisation.
 }
 \description{
 Computes pixel-wise NDCI difference between two time points to detect
@@ -48,5 +48,5 @@ productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
 \doi{10.1016/j.rse.2011.10.016}
 }
 \seealso{
-\code{\link[=calc_ndci]{calc_ndci()}}, \code{\link[=compare_habitats_change]{compare_habitats_change()}}
+\code{\link[=calc_ndci]{calc_ndci()}}, \code{\link[=compare_ndci_change]{compare_ndci_change()}}, \code{\link[=compare_tss_change]{compare_tss_change()}}
 }

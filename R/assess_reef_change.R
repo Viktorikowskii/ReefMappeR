@@ -6,10 +6,10 @@
 #' @param ndci_t1 SpatRaster. NDCI at time 1, output of [calc_ndci()].
 #' @param ndci_t2 SpatRaster. NDCI at time 2, output of [calc_ndci()].
 #'
-#' @return A SpatRaster of pixel-wise NDCI difference (t2 minus t1).
-#'   Positive values indicate increased chlorophyll-a, negative values
-#'   indicate decreased chlorophyll-a. Pass the result to
-#'   [compare_habitats_change()] for visualisation.
+#' @return A SpatRaster of pixel-wise difference (t2 minus t1).
+#'   Positive values indicate an increase, negative values a decrease.
+#'   Pass the result to [compare_ndci_change()] or [compare_tss_change()]
+#'   for visualisation.
 #'
 #' @details
 #' The NDCI difference is calculated as:
@@ -27,7 +27,7 @@
 #' productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
 #' \doi{10.1016/j.rse.2011.10.016}
 #'
-#' @seealso [calc_ndci()], [compare_habitats_change()]
+#' @seealso [calc_ndci()], [compare_ndci_change()], [compare_tss_change()]
 #'
 #' @importFrom terra compareGeom resample
 #' @export
