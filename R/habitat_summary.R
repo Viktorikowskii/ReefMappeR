@@ -1,22 +1,24 @@
 #' Habitat statistics summary for a region of interest
 #'
 #' Computes per-class area and depth statistics from the output of [set_roi()]
-#' and produces two outputs: a styled summary table and depth distribution plots
-#' for benthic classes, geomorphic classes, and seagrass.
+#' and produces a styled summary table.
 #'
 #' @param result Named list returned by [set_roi()].
 #'
-#' @return Invisibly returns a named list with `table` (gt object),
-#'   `plot_depth` (patchwork object), and `stats` (named list of data frames).
+#' @return Invisibly returns a named list with:
+#' \describe{
+#'   \item{table}{A styled `gt` summary table of benthic and geomorphic habitat statistics.}
+#'   \item{stats}{A named list with data frames `benthic`, `geomorph`, and `seagrass`.}
+#' }
+#'
+#' @seealso [plot_depth_distribution()] for depth distribution plots.
 #'
 #' @importFrom terra resample as.data.frame cellSize ext extract
 #' @importFrom dplyr left_join group_by summarise mutate arrange n filter
 #'   select desc bind_rows relocate
-#' @importFrom stringr str_wrap
 #' @importFrom gt gt tab_header tab_style cell_fill cell_text cells_body
 #'   cells_column_labels cells_title cells_row_groups cells_column_spanners
 #'   cols_align data_color fmt_number tab_options tab_spanner pct px
-#' @import ggplot2 patchwork
 #' @export
 #'
 #' @examples
@@ -24,6 +26,7 @@
 #' bbox   <- c(150.56, 151.30, -21.51, -20.77)
 #' result <- set_roi(bbox = bbox)
 #' out    <- habitat_summary(result)
+#' out$table
 #' out$stats$benthic
 #' }
 habitat_summary <- function(result) {
@@ -51,7 +54,7 @@ habitat_summary <- function(result) {
   area_df <- terra::as.data.frame(terra::cellSize(result$benthic, unit = "km"), xy = TRUE)
   names(area_df) <- c("x", "y", "area_km2")
 
-  # Merge benthic and geomorphic with depth and area, filter to submerged only
+  # Merge with depth and area, filter to submerged pixels only
   benthic_combined <- benthic_df |>
     dplyr::left_join(depth_df, by = c("x", "y")) |>
     dplyr::left_join(area_df,  by = c("x", "y")) |>
@@ -62,14 +65,10 @@ habitat_summary <- function(result) {
     dplyr::left_join(area_df,  by = c("x", "y")) |>
     dplyr::filter(depth < 0)
 
-  # ── Class labels and colours ──────────────────────────────────────────────
+  # ── Class labels ──────────────────────────────────────────────────────────
   benthic_labels <- c(
     "11" = "Sand",     "12" = "Rubble",      "13" = "Rock",
     "14" = "Seagrass", "15" = "Coral/Algae", "18" = "Microalgal Mats"
-  )
-  benthic_colors <- c(
-    "11" = "#ffffbe", "12" = "#e0d05e", "13" = "#b19c3a",
-    "14" = "#668438", "15" = "#ff6161", "18" = "#9bcc4f"
   )
 
   geomorph_labels <- c(
@@ -79,12 +78,6 @@ habitat_summary <- function(result) {
     "21" = "Sheltered Reef Slope", "22" = "Reef Slope",
     "23" = "Plateau",              "24" = "Back Reef Slope",
     "25" = "Patch Reef"
-  )
-  geomorph_colors <- c(
-    "11" = "#77d0fc", "12" = "#2ca2f9", "13" = "#c5a7cb",
-    "14" = "#92739d", "15" = "#614272", "16" = "#fbdefb",
-    "21" = "#10bda6", "22" = "#288471", "23" = "#cd6812",
-    "24" = "#befbff", "25" = "#ffba15"
   )
 
   benthic_combined$class_label  <- benthic_labels[benthic_combined$class_id]
@@ -119,7 +112,7 @@ habitat_summary <- function(result) {
     dplyr::mutate(pct_cover = round(area_km2 / sum(area_km2) * 100, 1)) |>
     dplyr::arrange(dplyr::desc(area_km2))
 
-  # Extract depth at seagrass locations, filter to submerged only
+  # Extract depth at seagrass locations
   seagrass_depth <- terra::extract(bathy_aligned, result$seagrass)
   names(seagrass_depth) <- c("id", "depth")
   seagrass_depth <- seagrass_depth |>
@@ -226,100 +219,11 @@ habitat_summary <- function(result) {
       row_group.padding           = gt::px(6)
     )
 
-  # ── Depth distribution plots ──────────────────────────────────────────────
-  p_benthic_depth <- ggplot2::ggplot(
-    benthic_combined |> dplyr::filter(!is.na(class_id), !is.na(depth), !is.na(class_label)),
-    ggplot2::aes(x = class_label, y = depth, fill = class_id)
-  ) +
-    ggplot2::geom_violin(alpha = 0.8, colour = "grey30", linewidth = 0.3) +
-    ggplot2::geom_boxplot(
-      width = 0.08, outlier.shape = NA,
-      colour = "grey20", fill = "white", linewidth = 0.3
-    ) +
-    ggplot2::scale_fill_manual(values = benthic_colors, guide = "none") +
-    ggplot2::scale_y_continuous(
-      breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
-      minor_breaks = NULL
-    ) +
-    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 8)) +
-    ggplot2::labs(title = "Benthic classes", x = NULL, y = "Depth (m)") +
-    ggplot2::theme_minimal(base_size = 10) +
-    ggplot2::theme(
-      plot.title  = ggplot2::element_text(face = "bold"),
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
-    )
-
-  p_geomorph_depth <- ggplot2::ggplot(
-    geomorph_combined |> dplyr::filter(!is.na(class_id), !is.na(depth), !is.na(class_label)),
-    ggplot2::aes(x = class_label, y = depth, fill = class_id)
-  ) +
-    ggplot2::geom_violin(alpha = 0.8, colour = "grey30", linewidth = 0.3) +
-    ggplot2::geom_boxplot(
-      width = 0.08, outlier.shape = NA,
-      colour = "grey20", fill = "white", linewidth = 0.3
-    ) +
-    ggplot2::scale_fill_manual(values = geomorph_colors, guide = "none") +
-    ggplot2::scale_y_continuous(
-      breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
-      minor_breaks = NULL
-    ) +
-    ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 8)) +
-    ggplot2::labs(title = "Geomorphic classes", x = NULL, y = "Depth (m)") +
-    ggplot2::theme_minimal(base_size = 10) +
-    ggplot2::theme(
-      plot.title  = ggplot2::element_text(face = "bold"),
-      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
-    )
-
-  p_seagrass_depth <- ggplot2::ggplot(
-    seagrass_depth,
-    ggplot2::aes(x = depth)
-  ) +
-    ggplot2::geom_histogram(
-      binwidth = 0.5, fill = "#00AA00", colour = "darkgreen",
-      alpha = 0.75, linewidth = 0.3
-    ) +
-    ggplot2::geom_vline(
-      xintercept = mean(seagrass_depth$depth, na.rm = TRUE),
-      colour = "darkgreen", linetype = "dashed", linewidth = 0.6
-    ) +
-    ggplot2::scale_x_continuous(
-      breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
-      minor_breaks = NULL
-    ) +
-    ggplot2::labs(
-      title    = "Seagrass depth distribution",
-      subtitle = paste0("Mean: ", round(mean(seagrass_depth$depth, na.rm = TRUE), 1), " m"),
-      x        = "Depth (m)",
-      y        = "Count"
-    ) +
-    ggplot2::theme_minimal(base_size = 10) +
-    ggplot2::theme(
-      plot.title    = ggplot2::element_text(face = "bold"),
-      plot.subtitle = ggplot2::element_text(colour = "grey50")
-    )
-
-  # Combine depth plots
-  p_depth <- (p_benthic_depth | p_geomorph_depth) /
-    p_seagrass_depth +
-    patchwork::plot_layout(heights = c(1.5, 1)) +
-    patchwork::plot_annotation(
-      title    = "Depth distributions by habitat class",
-      subtitle = paste("ROI:", paste(roi_coords, collapse = " | ")),
-      theme    = ggplot2::theme(
-        plot.title    = ggplot2::element_text(size = 13, face = "bold", hjust = 0.5),
-        plot.subtitle = ggplot2::element_text(size = 9,  colour = "grey50", hjust = 0.5)
-      )
-    )
-
-  # Print all outputs
   print(p_table)
-  print(p_depth)
 
   invisible(list(
-    table      = p_table,
-    plot_depth = p_depth,
-    stats      = list(
+    table = p_table,
+    stats = list(
       benthic  = benthic_stats,
       geomorph = geomorph_stats,
       seagrass = seagrass_depth

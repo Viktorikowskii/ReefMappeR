@@ -10,19 +10,25 @@ habitat_summary(result)
 \item{result}{Named list returned by \code{\link[=set_roi]{set_roi()}}.}
 }
 \value{
-Invisibly returns a named list with \code{table} (gt object),
-\code{plot_depth} (patchwork object), and \code{stats} (named list of data frames).
+Invisibly returns a named list with:
+\describe{
+\item{table}{A styled \code{gt} summary table of benthic and geomorphic habitat statistics.}
+\item{stats}{A named list with data frames \code{benthic}, \code{geomorph}, and \code{seagrass}.}
+}
 }
 \description{
 Computes per-class area and depth statistics from the output of \code{\link[=set_roi]{set_roi()}}
-and produces two outputs: a styled summary table and depth distribution plots
-for benthic classes, geomorphic classes, and seagrass.
+and produces a styled summary table.
 }
 \examples{
 \dontrun{
 bbox   <- c(150.56, 151.30, -21.51, -20.77)
 result <- set_roi(bbox = bbox)
 out    <- habitat_summary(result)
+out$table
 out$stats$benthic
 }
+}
+\seealso{
+\code{\link[=plot_depth_distribution]{plot_depth_distribution()}} for depth distribution plots.
 }
