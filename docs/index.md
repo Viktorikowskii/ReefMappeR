@@ -79,6 +79,10 @@ out$table          # styled gt summary table
 out$stats$benthic  # raw benthic statistics
 ```
 
+![Habitat summary table](reference/figures/habitat_summary_table.png)
+
+Habitat summary table
+
 ``` r
 plot_depth_distribution(result)
 ```
