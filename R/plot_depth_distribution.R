@@ -129,10 +129,7 @@ plot_depth_distribution <- function(result) {
     )
 
   # ── Seagrass depth histogram (optional) ───────────────────────────────────
-  seagrass_depth <- terra::extract(bathy_aligned, result$seagrass)
-  names(seagrass_depth) <- c("id", "depth")
-  seagrass_depth <- seagrass_depth |>
-    dplyr::filter(!is.na(depth), depth < 0)
+  seagrass_depth <- data.frame(id = integer(0), depth = numeric(0))
 
   if (nrow(seagrass_depth) > 0) {
     p_seagrass <- ggplot2::ggplot(
