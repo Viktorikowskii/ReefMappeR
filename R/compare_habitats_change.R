@@ -1,35 +1,84 @@
-#' Compare habitat layers with NDCI change
+#' Temporal NDCI Change Classification
 #'
-#' Plots geomorphic zone, benthic habitat, and NDCI change
-#' stacked vertically for visual comparison.
+#' Classifies pixel-wise NDCI change between two time points into three
+#' categories: increase in chlorophyll-a, no significant change, and decrease
+#' in chlorophyll-a. The classification is based on a user-defined threshold
+#' applied to the NDCI difference raster.
 #'
-#' @param reef_data List. Output from set_roi() containing
-#'   bathymetry, benthic, and geomorph SpatRasters.
-#' @param ndci_change SpatRaster. Output from assess_reef_change().
+#' @param ndci_change SpatRaster. Output from [assess_reef_change()],
+#'   representing pixel-wise NDCI difference (t2 - t1).
+#' @param threshold Numeric. Minimum absolute NDCI change to be considered
+#'   significant. Default is 0.1. See Details.
 #'
 #' @return Invisible NULL. Called for side effects (plot).
+#'
+#' @details
+#' NDCI change is classified into three classes:
+#' \itemize{
+#'   \item \strong{Chl-a increase} (NDCI change > +threshold): Indicates
+#'     elevated phytoplankton biomass, potentially associated with
+#'     eutrophication, algal blooms, or increased nutrient input.
+#'   \item \strong{No significant change} (|NDCI change| <= threshold):
+#'     Change within the defined threshold, interpreted as natural variability
+#'     or sensor noise rather than an ecologically meaningful signal.
+#'   \item \strong{Chl-a decrease} (NDCI change < -threshold): Indicates
+#'     reduced phytoplankton biomass, potentially reflecting improved water
+#'     clarity or reduced nutrient availability.
+#' }
+#'
+#' The default threshold of 0.1 is a practical convention used in exploratory
+#' NDCI change analyses when no site-specific calibration data are available.
+#' It should be treated as a starting point and adjusted based on local
+#' conditions and sensor characteristics. No universally established threshold
+#' exists in the literature; Mishra & Mishra (2012) demonstrate that NDCI can
+#' qualitatively map chlorophyll-a without in-situ data, but do not define a
+#' change threshold. For robust trend analysis across multiple time points,
+#' statistical approaches such as the Mann-Kendall trend test are recommended
+#' (European Environment Agency, 2024).
+#'
+#' @references
+#' Mishra, S. & Mishra, D.R. (2012). Normalized difference chlorophyll index:
+#' A novel model for remote sensing of chlorophyll-a concentration in turbid
+#' productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
+#' \doi{10.1016/j.rse.2011.10.016}
+#'
+#' European Environment Agency (2024). Chlorophyll in Europe's transitional,
+#' coastal and marine waters.
+#' \url{https://www.eea.europa.eu/en/analysis/indicators/chlorophyll-in-transitional-coastal-and}
+#'
+#' @seealso [assess_reef_change()], [calc_ndci()]
+#'
+#' @importFrom terra classify plot
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' change <- assess_reef_change(ndci_result_24, ndci_result_25)
-#' compare_habitats_change(example_a_24, change)
+#' s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
+#'                                    package = "ReefMappeR"))
+#' s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+#'                                    package = "ReefMappeR"))
+#' change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
+#' compare_habitats_change(change)
+#' compare_habitats_change(change, threshold = 0.05)
 #' }
-compare_habitats_change <- function(reef_data, ndci_change) {
+compare_habitats_change <- function(ndci_change, threshold = 0.1) {
 
-  # Layout setzen: 3 Plots übereinander
-  old_par <- par(mfrow = c(3, 1))
-  on.exit(par(old_par))  # nach dem Plot automatisch zurücksetzen
+  rcl <- matrix(c(
+    -Inf,       -threshold, 1,
+    -threshold,  threshold, 2,
+    threshold,  Inf,       3
+  ), ncol = 3, byrow = TRUE)
 
-  terra::plot(reef_data$geomorph,
-              main = "Geomorphic Zones")
+  change_class <- terra::classify(ndci_change, rcl)
 
-  terra::plot(reef_data$benthic,
-              main = "Benthic Habitat")
+  terra::plot(
+    change_class,
+    col    = c("#2ecc71", "#f5f5f5", "#e74c3c"),
+    type   = "classes",
+    levels = c("Chl-a decrease", "No significant change", "Chl-a increase"),
+    main   = paste0("Temporal NDCI Change Classification",
+                    " (threshold = \u00b1", threshold, ")")
+  )
 
-  terra::plot(ndci_change,
-              col  = colorRampPalette(c("#2ecc71", "white", "#e74c3c"))(100),
-              main = "NDCI Change (green = improvement, red = degradation)")
-
-  return(invisible(NULL))
+  invisible(NULL)
 }

@@ -2,26 +2,71 @@
 % Please edit documentation in R/compare_habitats_change.R
 \name{compare_habitats_change}
 \alias{compare_habitats_change}
-\title{Compare habitat layers with NDCI change}
+\title{Temporal NDCI Change Classification}
 \usage{
-compare_habitats_change(reef_data, ndci_change)
+compare_habitats_change(ndci_change, threshold = 0.1)
 }
 \arguments{
-\item{reef_data}{List. Output from set_roi() containing
-bathymetry, benthic, and geomorph SpatRasters.}
+\item{ndci_change}{SpatRaster. Output from \code{\link[=assess_reef_change]{assess_reef_change()}},
+representing pixel-wise NDCI difference (t2 - t1).}
 
-\item{ndci_change}{SpatRaster. Output from assess_reef_change().}
+\item{threshold}{Numeric. Minimum absolute NDCI change to be considered
+significant. Default is 0.1. See Details.}
 }
 \value{
 Invisible NULL. Called for side effects (plot).
 }
 \description{
-Plots geomorphic zone, benthic habitat, and NDCI change
-stacked vertically for visual comparison.
+Classifies pixel-wise NDCI change between two time points into three
+categories: increase in chlorophyll-a, no significant change, and decrease
+in chlorophyll-a. The classification is based on a user-defined threshold
+applied to the NDCI difference raster.
+}
+\details{
+NDCI change is classified into three classes:
+\itemize{
+\item \strong{Chl-a increase} (NDCI change > +threshold): Indicates
+elevated phytoplankton biomass, potentially associated with
+eutrophication, algal blooms, or increased nutrient input.
+\item \strong{No significant change} (|NDCI change| <= threshold):
+Change within the defined threshold, interpreted as natural variability
+or sensor noise rather than an ecologically meaningful signal.
+\item \strong{Chl-a decrease} (NDCI change < -threshold): Indicates
+reduced phytoplankton biomass, potentially reflecting improved water
+clarity or reduced nutrient availability.
+}
+
+The default threshold of 0.1 is a practical convention used in exploratory
+NDCI change analyses when no site-specific calibration data are available.
+It should be treated as a starting point and adjusted based on local
+conditions and sensor characteristics. No universally established threshold
+exists in the literature; Mishra & Mishra (2012) demonstrate that NDCI can
+qualitatively map chlorophyll-a without in-situ data, but do not define a
+change threshold. For robust trend analysis across multiple time points,
+statistical approaches such as the Mann-Kendall trend test are recommended
+(European Environment Agency, 2024).
 }
 \examples{
 \dontrun{
-change <- assess_reef_change(ndci_result_24, ndci_result_25)
-compare_habitats_change(example_a_24, change)
+s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
+                                   package = "ReefMappeR"))
+s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+                                   package = "ReefMappeR"))
+change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
+compare_habitats_change(change)
+compare_habitats_change(change, threshold = 0.05)
 }
+}
+\references{
+Mishra, S. & Mishra, D.R. (2012). Normalized difference chlorophyll index:
+A novel model for remote sensing of chlorophyll-a concentration in turbid
+productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.
+\doi{10.1016/j.rse.2011.10.016}
+
+European Environment Agency (2024). Chlorophyll in Europe's transitional,
+coastal and marine waters.
+\url{https://www.eea.europa.eu/en/analysis/indicators/chlorophyll-in-transitional-coastal-and}
+}
+\seealso{
+\code{\link[=assess_reef_change]{assess_reef_change()}}, \code{\link[=calc_ndci]{calc_ndci()}}
 }
