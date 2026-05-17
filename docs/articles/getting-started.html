@@ -67,16 +67,15 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ReefMappeR</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'terra' was built under R version 4.4.3</span></span>
-<span><span class="co">#&gt; terra 1.8.60</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: package 'terra' was built under R version 4.4.3</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>ReefMappeR provides a streamlined workflow for mapping and analysing
 reef habitats at the Great Barrier Reef using satellite remote sensing
 and open marine datasets. This vignette walks through a complete
-analysis from defining a region of interest to detecting temporal change
-in water quality.</p>
+analysis of Tongue Reef, GBR, using two Sentinel-2 images from summer
+2024 and 2025.</p>
 <p>The workflow consists of three stages:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -84,7 +83,7 @@ in water quality.</p>
 summarise habitats</li>
 <li>
 <strong>Water quality</strong> — estimate chlorophyll-a and
-suspended sediments from Sentinel-2</li>
+suspended sediments</li>
 <li>
 <strong>Change detection</strong> — compare two time points to
 detect NDCI change</li>
@@ -95,24 +94,17 @@ detect NDCI change</li>
 <h2 id="define-a-region-of-interest">1. Define a Region of Interest<a class="anchor" aria-label="anchor" href="#define-a-region-of-interest"></a>
 </h2>
 <p><code><a href="../reference/set_roi.html">set_roi()</a></code> is the entry point of every ReefMappeR
-workflow. It automatically loads and crops all bundled datasets —
-bathymetry, benthic habitat tiles, geomorphic zone tiles, and seagrass
-polygons — to your area of interest.</p>
-<p>You can define the ROI either by a bounding box or a Sentinel-2
-image:</p>
+workflow. It automatically loads and crops all bundled datasets to your
+area of interest. You can define the ROI either by a bounding box or a
+Sentinel-2 image:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Option A: bounding box (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="va">bbox</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150.56</span>, <span class="fl">150.80</span>, <span class="op">-</span><span class="fl">21.51</span>, <span class="op">-</span><span class="fl">21.20</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/set_roi.html">set_roi</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">bbox</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Option B: Sentinel-2 image extent</span></span>
+<code class="sourceCode R"><span><span class="co"># Using a Sentinel-2 image</span></span>
 <span><span class="va">s2</span>     <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
 <span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/set_roi.html">set_roi</a></span><span class="op">(</span>s2 <span class="op">=</span> <span class="va">s2</span><span class="op">)</span></span></code></pre></div>
 <p>The result is a named list with four elements:
 <code>bathymetry</code>, <code>benthic</code>, <code>geomorph</code>,
-and <code>seagrass</code>. All subsequent functions accept this list as
-input.</p>
+and <code>seagrass</code>.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -123,9 +115,11 @@ bathymetry as background and Allen Coral Atlas benthic habitats and
 geomorphic zones overlaid:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_habitat_map.html">plot_habitat_map</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p>The function automatically aggregates large rasters to prevent memory
-issues, applies focal smoothing to bathymetry, and uses the official
-Allen Coral Atlas colour scheme for habitat classes.</p>
+<div class="float">
+<img src="../reference/figures/habitat_map.png" alt="Two-panel habitat map of Tongue Reef showing benthic habitats (left) and geomorphic zones (right) with bathymetry as background."><div class="figcaption">Two-panel habitat map of Tongue Reef showing
+benthic habitats (left) and geomorphic zones (right) with bathymetry as
+background.</div>
+</div>
 <hr>
 </div>
 <div class="section level2">
@@ -136,12 +130,19 @@ statistics and produces a styled summary table:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/habitat_summary.html">habitat_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">table</span>          <span class="co"># styled gt table</span></span>
-<span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">benthic</span>  <span class="co"># raw benthic statistics</span></span>
-<span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">geomorph</span> <span class="co"># raw geomorphic statistics</span></span></code></pre></div>
+<span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">benthic</span>  <span class="co"># raw statistics</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/habitat_summary_table.png" alt="Summary table showing area, depth and cover statistics for benthic and geomorphic habitat classes."><div class="figcaption">Summary table showing area, depth and cover
+statistics for benthic and geomorphic habitat classes.</div>
+</div>
 <p><code><a href="../reference/plot_depth_distribution.html">plot_depth_distribution()</a></code> visualises the depth
 distribution of each habitat class as boxplots:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_depth_distribution.html">plot_depth_distribution</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/depth_distribution.png" alt="Boxplots showing depth distributions for benthic and geomorphic habitat classes at Tongue Reef."><div class="figcaption">Boxplots showing depth distributions for benthic
+and geomorphic habitat classes at Tongue Reef.</div>
+</div>
 <hr>
 </div>
 <div class="section level2">
@@ -155,38 +156,39 @@ Mishra, 2012):</p>
 <code class="sourceCode R"><span><span class="va">s2</span>   <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
 <span>                                 package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
-<p>NDCI values range from -1 to 1. Values above 0.3 indicate high
-chlorophyll-a, potentially associated with eutrophication or algal
-blooms.</p>
+<div class="float">
+<img src="../reference/figures/ndci.png" alt="NDCI map of Tongue Reef (August 2025). Values range from -1 to +1; higher values indicate elevated chlorophyll-a."><div class="figcaption">NDCI map of Tongue Reef (August 2025). Values
+range from -1 to +1; higher values indicate elevated
+chlorophyll-a.</div>
+</div>
 <p><code><a href="../reference/calculate_water_quality.html">calculate_water_quality()</a></code> estimates Total Suspended
-Sediments (TSS) from Sentinel-2 bands B3, B4 and B8:</p>
+Sediments (TSS):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/tss.png" alt="TSS map of Tongue Reef (August 2025). Higher values indicate more suspended sediments in the water column."><div class="figcaption">TSS map of Tongue Reef (August 2025). Higher
+values indicate more suspended sediments in the water column.</div>
+</div>
 <hr>
 </div>
 <div class="section level2">
 <h2 id="detect-temporal-change">5. Detect Temporal Change<a class="anchor" aria-label="anchor" href="#detect-temporal-change"></a>
 </h2>
 <p>To detect change in chlorophyll-a between two dates, load two
-Sentinel-2 images from the same season and compute NDCI for each:</p>
+Sentinel-2 images and compute NDCI for each:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s2_24</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_2024_example.tif"</span>,</span>
-<span>                                  package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">s2_25</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
-<span>                                  package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">s2_24</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_2024_example.tif"</span>,</span>
+<span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">s2_25</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
+<span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ndci_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span></span>
-<span><span class="va">ndci_25</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/assess_reef_change.html">assess_reef_change()</a></code> computes the pixel-wise NDCI
-difference:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="va">ndci_24</span>, <span class="va">ndci_25</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/compare_habitats_change.html">compare_habitats_change()</a></code> classifies the change into
-three categories and visualises the result. The default threshold of 0.1
-can be adjusted:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/compare_habitats_change.html">compare_habitats_change</a></span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/compare_habitats_change.html">compare_habitats_change</a></span><span class="op">(</span><span class="va">change</span>, threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span>, <span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/compare_habitats_change.html">compare_habitats_change</a></span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/ndci_change.png" alt="Temporal NDCI Change Classification for Tongue Reef (2024–2025). Red = Chl-a increase, white = no significant change, green = Chl-a decrease."><div class="figcaption">Temporal NDCI Change Classification for Tongue
+Reef (2024–2025). Red = Chl-a increase, white = no significant change,
+green = Chl-a decrease.</div>
+</div>
 <hr>
 </div>
 <div class="section level2">

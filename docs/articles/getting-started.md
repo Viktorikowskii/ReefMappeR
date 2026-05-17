@@ -4,7 +4,6 @@
 library(ReefMappeR)
 library(terra)
 #> Warning: package 'terra' was built under R version 4.4.3
-#> terra 1.8.60
 ```
 
 ## Overview
@@ -12,15 +11,14 @@ library(terra)
 ReefMappeR provides a streamlined workflow for mapping and analysing
 reef habitats at the Great Barrier Reef using satellite remote sensing
 and open marine datasets. This vignette walks through a complete
-analysis from defining a region of interest to detecting temporal change
-in water quality.
+analysis of Tongue Reef, GBR, using two Sentinel-2 images from summer
+2024 and 2025.
 
 The workflow consists of three stages:
 
 1.  **Habitat mapping** — load spatial data, visualise and summarise
     habitats
 2.  **Water quality** — estimate chlorophyll-a and suspended sediments
-    from Sentinel-2
 3.  **Change detection** — compare two time points to detect NDCI change
 
 ------------------------------------------------------------------------
@@ -29,25 +27,18 @@ The workflow consists of three stages:
 
 [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md)
 is the entry point of every ReefMappeR workflow. It automatically loads
-and crops all bundled datasets — bathymetry, benthic habitat tiles,
-geomorphic zone tiles, and seagrass polygons — to your area of interest.
-
-You can define the ROI either by a bounding box or a Sentinel-2 image:
+and crops all bundled datasets to your area of interest. You can define
+the ROI either by a bounding box or a Sentinel-2 image:
 
 ``` r
-# Option A: bounding box (xmin, xmax, ymin, ymax)
-bbox   <- c(150.56, 150.80, -21.51, -21.20)
-result <- set_roi(bbox = bbox)
-
-# Option B: Sentinel-2 image extent
+# Using a Sentinel-2 image
 s2     <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                    package = "ReefMappeR"))
 result <- set_roi(s2 = s2)
 ```
 
 The result is a named list with four elements: `bathymetry`, `benthic`,
-`geomorph`, and `seagrass`. All subsequent functions accept this list as
-input.
+`geomorph`, and `seagrass`.
 
 ------------------------------------------------------------------------
 
@@ -61,9 +52,12 @@ Atlas benthic habitats and geomorphic zones overlaid:
 plot_habitat_map(result)
 ```
 
-The function automatically aggregates large rasters to prevent memory
-issues, applies focal smoothing to bathymetry, and uses the official
-Allen Coral Atlas colour scheme for habitat classes.
+![Two-panel habitat map of Tongue Reef showing benthic habitats (left)
+and geomorphic zones (right) with bathymetry as
+background.](../reference/figures/habitat_map.png)
+
+Two-panel habitat map of Tongue Reef showing benthic habitats (left) and
+geomorphic zones (right) with bathymetry as background.
 
 ------------------------------------------------------------------------
 
@@ -76,9 +70,15 @@ summary table:
 ``` r
 out <- habitat_summary(result)
 out$table          # styled gt table
-out$stats$benthic  # raw benthic statistics
-out$stats$geomorph # raw geomorphic statistics
+out$stats$benthic  # raw statistics
 ```
+
+![Summary table showing area, depth and cover statistics for benthic and
+geomorphic habitat
+classes.](../reference/figures/habitat_summary_table.png)
+
+Summary table showing area, depth and cover statistics for benthic and
+geomorphic habitat classes.
 
 [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md)
 visualises the depth distribution of each habitat class as boxplots:
@@ -86,6 +86,13 @@ visualises the depth distribution of each habitat class as boxplots:
 ``` r
 plot_depth_distribution(result)
 ```
+
+![Boxplots showing depth distributions for benthic and geomorphic
+habitat classes at Tongue
+Reef.](../reference/figures/depth_distribution.png)
+
+Boxplots showing depth distributions for benthic and geomorphic habitat
+classes at Tongue Reef.
 
 ------------------------------------------------------------------------
 
@@ -102,50 +109,49 @@ s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 ndci <- calc_ndci(s2)
 ```
 
-NDCI values range from -1 to 1. Values above 0.3 indicate high
-chlorophyll-a, potentially associated with eutrophication or algal
-blooms.
+![NDCI map of Tongue Reef (August 2025). Values range from -1 to +1;
+higher values indicate elevated
+chlorophyll-a.](../reference/figures/ndci.png)
+
+NDCI map of Tongue Reef (August 2025). Values range from -1 to +1;
+higher values indicate elevated chlorophyll-a.
 
 [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md)
-estimates Total Suspended Sediments (TSS) from Sentinel-2 bands B3, B4
-and B8:
+estimates Total Suspended Sediments (TSS):
 
 ``` r
 tss <- calculate_water_quality(s2)
 ```
+
+![TSS map of Tongue Reef (August 2025). Higher values indicate more
+suspended sediments in the water column.](../reference/figures/tss.png)
+
+TSS map of Tongue Reef (August 2025). Higher values indicate more
+suspended sediments in the water column.
 
 ------------------------------------------------------------------------
 
 ## 5. Detect Temporal Change
 
 To detect change in chlorophyll-a between two dates, load two Sentinel-2
-images from the same season and compute NDCI for each:
+images and compute NDCI for each:
 
 ``` r
-s2_24 <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
-                                  package = "ReefMappeR"))
-s2_25 <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
-                                  package = "ReefMappeR"))
+s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
+                                   package = "ReefMappeR"))
+s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+                                   package = "ReefMappeR"))
 
-ndci_24 <- calc_ndci(s2_24)
-ndci_25 <- calc_ndci(s2_25)
-```
-
-[`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md)
-computes the pixel-wise NDCI difference:
-
-``` r
-change <- assess_reef_change(ndci_24, ndci_25)
-```
-
-[`compare_habitats_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_habitats_change.md)
-classifies the change into three categories and visualises the result.
-The default threshold of 0.1 can be adjusted:
-
-``` r
+change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
 compare_habitats_change(change)
-compare_habitats_change(change, threshold = 0.05)
 ```
+
+![Temporal NDCI Change Classification for Tongue Reef (2024–2025). Red =
+Chl-a increase, white = no significant change, green = Chl-a
+decrease.](../reference/figures/ndci_change.png)
+
+Temporal NDCI Change Classification for Tongue Reef (2024–2025). Red =
+Chl-a increase, white = no significant change, green = Chl-a decrease.
 
 ------------------------------------------------------------------------
 
