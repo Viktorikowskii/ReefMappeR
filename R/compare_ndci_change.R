@@ -55,10 +55,10 @@
 #' s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 #'                                    package = "ReefMappeR"))
 #' change <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
-#' compare_habitats_change(change)
-#' compare_habitats_change(change, threshold = 0.05)
+#' compare_ndci_change(change)
+#' compare_ndci_change(change, threshold = 0.05)
 #' }
-compare_habitats_change <- function(ndci_change, threshold = 0.1) {
+compare_ndci_change <- function(ndci_change, threshold = 0.1) {
 
   rcl <- matrix(c(
     -Inf,       -threshold, 1,

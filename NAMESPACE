@@ -3,7 +3,7 @@
 export(assess_reef_change)
 export(calc_ndci)
 export(calculate_water_quality)
-export(compare_habitats_change)
+export(compare_ndci_change)
 export(habitat_summary)
 export(plot_depth_distribution)
 export(plot_habitat_map)
