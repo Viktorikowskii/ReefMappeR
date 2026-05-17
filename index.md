@@ -1,4 +1,4 @@
-# ReefMappeR file.info(“docs/logo.png”)\$mtime file.info("man/figures/logo.png")\$mtime
+# ReefMappeR
 
 An R package for mapping and analysing reef habitats at the Great
 Barrier Reef using satellite remote sensing and open marine datasets.
