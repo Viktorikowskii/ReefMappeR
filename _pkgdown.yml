@@ -1,4 +1,18 @@
 url: "https://viktorikowskii.github.io/ReefMappeR/"
+
 template:
   bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#1a5276"
+    secondary: "#2874a6"
+    base_font: {google: "Source Sans Pro"}
+    heading_font: {google: "Source Sans Pro"}
+    code_font: {google: "Source Code Pro"}
 
+navbar:
+  bg: primary
+
+home:
+  title: "ReefMappeR"
+  description: "Reef habitat mapping and analysis for the Great Barrier Reef"
