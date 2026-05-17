@@ -5,7 +5,9 @@
 .DS_Store
 .quarto
 dev/
-inst/extdata/benthic_gbr_*.tif 
-inst/extdata/geomorph_gbr_*.tif 
-inst/extdata/GEBCO_2024.nc 
-inst/extdata/Sentinel2_2025-08-28_AllBands.tif 
+inst/extdata/GEBCO_2024.nc
+inst/extdata/Sentinel2_2025-08-28_AllBands.tif
+inst/doc
+/doc/
+/Meta/
+docs

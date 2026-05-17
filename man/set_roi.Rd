@@ -50,7 +50,7 @@ result <- set_roi(bbox = bbox)
 plot(result$benthic)
 
 \dontrun{
-s2_img <- terra::rast(system.file("extdata", "Sentinel2_2025-08-28_AllBands.tif",
+#' s2_img <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                    package = "ReefMappeR"))
 result  <- set_roi(s2 = s2_img)
 plot(result$benthic)

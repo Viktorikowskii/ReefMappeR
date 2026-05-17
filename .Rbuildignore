@@ -19,3 +19,8 @@
 ^\.DS_Store$
 ^Thumbs\.db$
 ^dev$
+^doc$
+^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
