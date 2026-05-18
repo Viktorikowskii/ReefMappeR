@@ -30,7 +30,7 @@ The benthic and geomorphic data are stored as individual tiles. `set_roi()` auto
 
 ## Workflow
 
-<img src="man/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="400"/>## Basic Usage
+<img src="man/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="500"/>
 
 ### 1. Define your region of interest
 
