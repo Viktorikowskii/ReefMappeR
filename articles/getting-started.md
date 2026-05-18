@@ -13,15 +13,13 @@ the Great Barrier Reef (GBR) using satellite remote sensing and open
 marine datasets. It integrates four data sources into a single,
 reproducible workflow:
 
-- **GEBCO 2024** bathymetry — global seafloor depth model at ~450 m
-  resolution
-- **Allen Coral Atlas** — high-resolution (5 m) benthic habitat and
-  geomorphic zone maps derived from PlanetScope satellite imagery and
-  machine learning
-- **UNEP-WCMC** seagrass polygons — global seagrass distribution
-  database
-- **Sentinel-2 Level-2A** satellite imagery — multispectral imagery at
-  10 m resolution for water quality analysis
+- **GEBCO 2024** bathymetry at 15 arc-second resolution (~450 m at the
+  equator)
+- **Allen Coral Atlas** benthic habitat and geomorphic zone maps derived
+  from PlanetScope satellite imagery and machine learning
+- **UNEP-WCMC** seagrass polygons indicating known seagrass occurrence
+- **Sentinel-2 Level-2A** satellite imagery at 10 m spatial resolution
+  for water quality analysis
 
 The package is designed for researchers and students who want to rapidly
 characterise reef habitats, assess water quality, and detect temporal
@@ -36,11 +34,11 @@ free, open-access multispectral imagery at 10 m spatial resolution with
 a revisit time of approximately 5 days. For reef monitoring it offers
 several advantages:
 
-- **10 m resolution** — sufficient to delineate benthic features and
-  reef structures
+- **10 m resolution** — sufficient to resolve individual reef structures
 - **Red-edge band (B5, 705 nm)** — sensitive to chlorophyll-a
-  concentration, enabling NDCI calculation
-- **Free and open access** — available via Copernicus Open Access Hub
+  absorption, enabling NDCI calculation
+- **Free and open access** — available via the Copernicus Data Space
+  Ecosystem
 - **Level-2A products** — atmospherically corrected surface reflectance,
   ready for water quality analysis
 
@@ -67,18 +65,18 @@ The benthic and geomorphic data are stored as individual tiles covering
 the GBR.
 [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md)
 automatically identifies and loads only the tiles that overlap with your
-region of interest — no manual tile selection required.
+region of interest.
 
 ------------------------------------------------------------------------
 
 ## Workflow
 
-    set_roi()
-        ├── plot_habitat_map()
-        ├── habitat_summary()
-        ├── plot_depth_distribution()
-        ├── calculate_water_quality()  ──► assess_reef_change()  ──► compare_tss_change()
-        └── calc_ndci()                ──► assess_reef_change()  ──► compare_ndci_change()
+![ReefMappeR workflow](Workflow_reefMappeR.png)
+
+  
+
+*ReefMappeR workflow: from input data to habitat analysis, water quality
+assessment, and change detection.*
 
 ------------------------------------------------------------------------
 
@@ -99,11 +97,10 @@ result <- set_roi(s2 = s2)
 
 The result is a named list with four elements:
 
-- `result$bathymetry` — GEBCO bathymetry resampled to the ACA grid (~10
-  m)
-- `result$benthic` — mosaicked benthic habitat classes
-- `result$geomorph` — mosaicked geomorphic zone classes
-- `result$seagrass` — seagrass polygons clipped to the ROI
+- `result$bathymetry` — GEBCO bathymetry raster cropped to the ROI
+- `result$benthic` — Allen Coral Atlas benthic habitat raster
+- `result$geomorph` — Allen Coral Atlas geomorphic zone raster
+- `result$seagrass` — UNEP-WCMC seagrass polygons clipped to the ROI
 
 ------------------------------------------------------------------------
 
@@ -114,21 +111,14 @@ produces a two-panel map with bathymetry as background. The left panel
 shows benthic habitat classes, the right panel geomorphic zones, both
 following the [Allen Coral Atlas colour
 scheme](https://allencoralatlas.org/methods/). Seagrass polygons from
-UNEP-WCMC are overlaid in green on both panels.
+UNEP-WCMC are overlaid as green points on both panels.
 
 ``` r
 
 plot_habitat_map(result)
 ```
 
-![Two-panel habitat map of Tongue Reef, GBR. Left: benthic habitats
-(Allen Coral Atlas). Right: geomorphic zones (Allen Coral Atlas).
-Background: GEBCO 2024 bathymetry. Seagrass polygons (UNEP-WCMC)
-overlaid in green.](../reference/figures/habitat_map.png)
-
-Two-panel habitat map of Tongue Reef, GBR. Left: benthic habitats (Allen
-Coral Atlas). Right: geomorphic zones (Allen Coral Atlas). Background:
-GEBCO 2024 bathymetry. Seagrass polygons (UNEP-WCMC) overlaid in green.
+![Habitat map](habitat_map.png)
 
 **Allen Coral Atlas benthic classes:** Sand, Rubble, Rock, Seagrass,
 Coral/Algae, Microalgal Mats. Full class descriptions and colour scheme:
@@ -155,35 +145,25 @@ out$stats$benthic  # raw benthic statistics as data frame
 out$stats$geomorph # raw geomorphic statistics as data frame
 ```
 
-![Summary table showing area, percentage cover, and depth statistics for
-benthic and geomorphic habitat classes at Tongue
-Reef.](../reference/figures/habitat_summary_table.png)
-
-Summary table showing area, percentage cover, and depth statistics for
-benthic and geomorphic habitat classes at Tongue Reef.
+![Habitat summary table](habitat_summary_table.png)
 
 ------------------------------------------------------------------------
 
 ## 4. Visualise Depth Distributions
 
 [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md)
-shows the depth range of each habitat class as boxplots, derived by
-intersecting the habitat rasters with the GEBCO bathymetry layer. This
-reveals the ecological zonation of reef habitats — for example, at what
-depths coral and algae occur compared to sand or rubble.
+shows the depth range of each benthic and geomorphic habitat class as
+boxplots, derived by intersecting the habitat rasters with the GEBCO
+bathymetry layer. This reveals the ecological zonation of reef habitats
+— for example, at what depths coral and algae occur compared to sand or
+rubble.
 
 ``` r
 
 plot_depth_distribution(result)
 ```
 
-![Boxplots showing depth distributions for benthic (left) and geomorphic
-(right) habitat classes at Tongue Reef. Depths derived from GEBCO 2024
-bathymetry.](../reference/figures/depth_distribution.png)
-
-Boxplots showing depth distributions for benthic (left) and geomorphic
-(right) habitat classes at Tongue Reef. Depths derived from GEBCO 2024
-bathymetry.
+![Depth distribution](depth_distribution.png)
 
 ------------------------------------------------------------------------
 
@@ -194,15 +174,15 @@ bathymetry.
 [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md)
 computes the Normalized Difference Chlorophyll Index (NDCI) from
 Sentinel-2 bands B4 (665 nm, red) and B5 (705 nm, red-edge). NDCI is a
-proxy for chlorophyll-a concentration — the primary photosynthetic
-pigment in phytoplankton and algae. Elevated chlorophyll-a over reefs
+proxy for chlorophyll-a concentration reflecting the photosynthetic
+activity in phytoplankton and algae. Elevated chlorophyll-a over reefs
 can indicate eutrophication from terrestrial runoff, a significant
 threat to coral reef ecosystems (Mishra & Mishra, 2012).
 
 NDCI values range from -1 to +1:
 
 - **\< 0:** low chlorophyll-a, clear oligotrophic water
-- **0–0.3:** moderate chlorophyll-a, typical coastal conditions
+- **0 – 0.3:** moderate chlorophyll-a
 - **\> 0.3:** high chlorophyll-a, potential eutrophication or algal
   bloom
 
@@ -213,34 +193,22 @@ s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 ndci <- calc_ndci(s2)
 ```
 
-![NDCI map of Tongue Reef (August 2025). Higher values (yellow) indicate
-elevated chlorophyll-a in the water column, likely associated with
-shallow reef areas and benthic algae.](../reference/figures/ndci.png)
-
-NDCI map of Tongue Reef (August 2025). Higher values (yellow) indicate
-elevated chlorophyll-a in the water column, likely associated with
-shallow reef areas and benthic algae.
+![NDCI map](ndci.png)
 
 ### Total Suspended Sediments (TSS)
 
 [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md)
 estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 bands
 B3 (green), B4 (red), and B8 (NIR). TSS is a key indicator of water
-turbidity — high sediment loads reduce light availability for corals and
-seagrass and can cause physical smothering of reef communities.
+turbidity affecting light availability for corals and seagrass and can
+cause physical smothering of reef communities.
 
 ``` r
 
 tss <- calculate_water_quality(s2)
 ```
 
-![TSS map of Tongue Reef (August 2025). Higher values indicate greater
-suspended sediment concentrations in the water column, concentrated in
-shallow reef areas.](../reference/figures/tss.png)
-
-TSS map of Tongue Reef (August 2025). Higher values indicate greater
-suspended sediment concentrations in the water column, concentrated in
-shallow reef areas.
+![TSS map](tss.png)
 
 ------------------------------------------------------------------------
 
@@ -251,9 +219,8 @@ shallow reef areas.
 [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md)
 computes the pixel-wise difference between two rasters (t2 minus t1).
 Applied to NDCI, positive values indicate increased chlorophyll-a
-between the two dates — potentially reflecting worsening water quality
-or increased algal growth. Negative values indicate improved water
-clarity.
+between the two dates suggesting deteriorating water quality or
+increased algal growth. Negative values indicate improved water clarity.
 
 [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md)
 classifies the change into three categories using a user-defined
@@ -272,14 +239,7 @@ change_ndci <- assess_reef_change(ndci_24, ndci_25)
 compare_ndci_change(change_ndci)
 ```
 
-![Temporal NDCI Change Classification for Tongue Reef (2024–2025). Red =
-significant chlorophyll-a increase. White = no significant change. Green
-= significant chlorophyll-a decrease. Threshold:
-±0.1.](../reference/figures/ndci_change.png)
-
-Temporal NDCI Change Classification for Tongue Reef (2024–2025). Red =
-significant chlorophyll-a increase. White = no significant change. Green
-= significant chlorophyll-a decrease. Threshold: ±0.1.
+![NDCI change](ndci_change.png)
 
 ### TSS Change (2024–2025)
 
@@ -299,14 +259,7 @@ change_tss <- assess_reef_change(tss_24, tss_25)
 compare_tss_change(change_tss)
 ```
 
-![Temporal TSS Change Classification for Tongue Reef (2024–2025). Red =
-significant TSS increase. White = no significant change. Green =
-significant TSS decrease. Threshold: ±0.5
-g/m³.](../reference/figures/tss_change.png)
-
-Temporal TSS Change Classification for Tongue Reef (2024–2025). Red =
-significant TSS increase. White = no significant change. Green =
-significant TSS decrease. Threshold: ±0.5 g/m³.
+![TSS change](tss_change.png)
 
 ------------------------------------------------------------------------
 
