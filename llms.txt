@@ -1,5 +1,3 @@
-# ReefMappeR
-
 An R package for mapping and analysing reef habitats at the Great
 Barrier Reef using satellite remote sensing and open-source marine
 datasets.
