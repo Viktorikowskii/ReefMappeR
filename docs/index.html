@@ -71,8 +71,23 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest and produces habitat maps, depth statistics, water quality assessments, and change detection outputs for the Normalized Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).</p>
-<p><img src="reference/figures/example_habitat_map.png" alt="Example habitat map of the Whitsundays region (GBR)"><em>Benthic habitats and geomorphic zones of the Whitsundays region, Great Barrier Reef.</em></p>
+<p>ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest. It produces habitat maps, depth statistics, water quality assessments, and change detection outputs for the Normalized Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).</p>
+<p><img src="reference/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="550"></p>
+<p><br></p>
+<p><em>ReefMappeR workflow: from input data to habitat analysis, water quality assessment, and change detection.</em></p>
+</div>
+<div class="section level2">
+<h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
+</h2>
+<p><strong>Input flexibility</strong> — Define your area of interest via a bounding box or a Sentinel-2 satellite image.</p>
+<p><strong>Habitat analysis</strong> — Generate two-panel habitat maps, per-class area and depth statistics, and depth distribution plots using Allen Coral Atlas benthic and geomorphic classifications.</p>
+<p><strong>Water quality assessment</strong> — Estimate chlorophyll-a concentration (NDCI) and Total Suspended Sediments (TSS) directly from Sentinel-2 surface reflectance bands.</p>
+<p><strong>Change detection</strong> — Quantify and map pixel-wise change in NDCI and TSS between two time points to track reef condition over time.</p>
+</div>
+<div class="section level2">
+<h2 id="example-output">Example Output<a class="anchor" aria-label="anchor" href="#example-output"></a>
+</h2>
+<p><br><img src="reference/figures/example_habitat_map.png" alt="Example habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"><br><em>Benthic habitats and geomorphic zones of the Whitsundays region, Great Barrier Reef. Produced with <code><a href="reference/plot_habitat_map.html">plot_habitat_map()</a></code>.</em></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -83,7 +98,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"Viktorikowskii/ReefMappeR"</span><span class="op">)</span></span></code></pre></div>
 <p>Then load it in R:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ReefMappeR</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://viktorikowskii.github.io/ReefMappeR/">ReefMappeR</a></span><span class="op">)</span></span></code></pre></div>
 <p>For a full workflow example see the <a href="https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html">Getting Started vignette</a>.</p>
 </div>
 <div class="section level2">

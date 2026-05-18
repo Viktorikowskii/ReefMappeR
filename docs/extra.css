@@ -1,10 +1,40 @@
-/* Abstand unter der Navbar */
+/* Spacing below navbar */
 body {
   padding-top: 10px;
 }
 
-/* Logo-Größe in der Navbar */
+/* Logo size in navbar */
 .navbar-logo {
   height: 40px;
   margin-right: 8px;
+}
+
+/* Spacing and centering for images */
+.contents img {
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+}
+
+/* Center image caption */
+.contents img + em {
+  display: block;
+  text-align: center;
+  color: #666;
+  font-size: 0.9em;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+}
+/* Workflow diagram size */
+.contents img[alt="ReefMappeR workflow"] {
+  max-width: 50px;
+}
+/* Example habitat map - left aligned with border */
+.contents img[alt*="Example habitat map"] {
+  display: block;
+  margin: 2rem 0;
+  max-width: 1000px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px;
 }
