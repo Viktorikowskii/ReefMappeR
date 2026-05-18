@@ -1,3 +1,7 @@
+# ReefMappeR
+
+**Reef habitat mapping and analysis for the Great Barrier Reef**
+
 An R package for mapping and analysing reef habitats at the Great
 Barrier Reef using satellite remote sensing and open-source marine
 datasets.
@@ -12,13 +16,30 @@ area of interest and produces habitat maps, depth statistics, water
 quality assessments, and change detection outputs for the Normalized
 Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).
 
+![Example habitat map of the Whitsundays region
+(GBR)](reference/figures/example_habitat_map.png)*Benthic habitats and
+geomorphic zones of the Whitsundays region, Great Barrier Reef.*
+
 ## Installation
+
+ReefMappeR requires R (\>= 4.1.0). Install the package directly from
+GitHub:
 
 ``` r
 
 # install.packages("devtools")
 devtools::install_github("Viktorikowskii/ReefMappeR")
 ```
+
+Then load it in R:
+
+``` r
+
+library(ReefMappeR)
+```
+
+For a full workflow example see the [Getting Started
+vignette](https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html).
 
 ## Bundled Datasets
 
