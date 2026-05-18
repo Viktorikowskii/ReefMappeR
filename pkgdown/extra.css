@@ -1,0 +1,10 @@
+/* Abstand unter der Navbar */
+body {
+  padding-top: 10px;
+}
+
+/* Logo-Größe in der Navbar */
+.navbar-logo {
+  height: 40px;
+  margin-right: 8px;
+}

@@ -1,7 +1,16 @@
 
 
 
-# ReefMappeR <a href="https://github.com/Viktorikowskii/ReefMappeR"><img src="../man/figures/logo.png" align="right" height="134" alt="ReefMappeR website" /></a>
+
+
+
+
+
+# ReefMappeR
+
+**Reef habitat mapping and analysis for the Great Barrier Reef**
+
+
 
 An R package for mapping and analysing reef habitats at the Great Barrier Reef using satellite remote sensing and open-source marine datasets.
 
@@ -9,12 +18,26 @@ An R package for mapping and analysing reef habitats at the Great Barrier Reef u
 
 ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest and produces habitat maps, depth statistics, water quality assessments, and change detection outputs for the Normalized Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).
 
+
+![Example habitat map of the Whitsundays region (GBR)](man/figures/example_habitat_map.png)
+*Benthic habitats and geomorphic zones of the Whitsundays region, Great Barrier Reef.*
+
 ## Installation
+
+ReefMappeR requires R (>= 4.1.0). Install the package directly from GitHub:
 
 ```r
 # install.packages("devtools")
 devtools::install_github("Viktorikowskii/ReefMappeR")
 ```
+
+Then load it in R:
+
+```r
+library(ReefMappeR)
+```
+
+For a full workflow example see the [Getting Started vignette](https://viktorikowskii.github.io/ReefMappeR/articles/getting-started.html).
 
 ## Bundled Datasets
 

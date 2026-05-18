@@ -164,18 +164,23 @@ plot_habitat_map <- function(result, smooth = TRUE, agg_fact = NULL) {
         "#90F1FF", "#98F5FF", "#A2F7FF", "#ACF8FF", "#B6FAFF", "#C0FBFF"
       ),
       limits = c(min(bathy_df$depth, na.rm = TRUE), 0),
+      breaks = scales::pretty_breaks(n = 5),
       name   = "Depth (m)"
     ) +
     ggplot2::theme_void() +
     ggplot2::theme(legend.position = "none")
 
   # Shared seagrass overlay and theme
+  seagrass_centroids <- sf::st_centroid(seagrass_sf)
+
   seagrass_layer <- ggplot2::geom_sf(
-    data        = seagrass_sf,
-    fill        = "#00FF00",
-    alpha       = 0.85,
-    colour      = "darkgreen",
-    linewidth   = 0.4,
+    data = seagrass_centroids,
+    shape = 21,
+    fill = "#668438",
+    colour = "darkgreen",
+    size = 2.5,      # kleiner
+    stroke = 0.8,
+    alpha = 0.7,     # etwas transparent
     inherit.aes = FALSE
   )
 
