@@ -1,8 +1,7 @@
 # Plot depth distributions by habitat class
 
 Produces boxplots showing the depth distribution of benthic and
-geomorphic habitat classes, and optionally a histogram for seagrass
-depth, from the output of
+geomorphic habitat classes from the output of
 [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md).
 
 ## Usage
