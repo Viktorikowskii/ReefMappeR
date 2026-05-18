@@ -1,8 +1,7 @@
 #' Plot depth distributions by habitat class
 #'
 #' Produces boxplots showing the depth distribution of benthic and
-#' geomorphic habitat classes, and optionally a histogram for seagrass depth,
-#' from the output of [set_roi()].
+#' geomorphic habitat classes from the output of [set_roi()].
 #'
 #' @param result Named list returned by [set_roi()].
 #'
@@ -11,7 +10,7 @@
 #'
 #' @seealso [habitat_summary()] for area and depth statistics as a table.
 #'
-#' @importFrom terra resample as.data.frame cellSize ext extract
+#' @importFrom terra resample as.data.frame ext
 #' @importFrom dplyr left_join filter mutate
 #' @importFrom stringr str_wrap
 #' @import ggplot2 patchwork
@@ -92,8 +91,8 @@ plot_depth_distribution <- function(result) {
     ) +
     ggplot2::scale_fill_manual(values = benthic_colors, guide = "none") +
     ggplot2::scale_y_continuous(
-      limits       = c(-50, 0),
-      breaks       = seq(-50, 0, by = 10),
+      limits = NULL,
+      breaks       = scales::pretty_breaks(n = 5),
       minor_breaks = NULL
     ) +
     ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10)) +
@@ -116,8 +115,8 @@ plot_depth_distribution <- function(result) {
     ) +
     ggplot2::scale_fill_manual(values = geomorph_colors, guide = "none") +
     ggplot2::scale_y_continuous(
-      limits       = c(-50, 0),
-      breaks       = seq(-50, 0, by = 10),
+      limits = NULL,
+      breaks       = scales::pretty_breaks(n = 5),
       minor_breaks = NULL
     ) +
     ggplot2::scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 10)) +
@@ -127,62 +126,16 @@ plot_depth_distribution <- function(result) {
       plot.title  = ggplot2::element_text(face = "bold"),
       axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 8)
     )
-
-  # ── Seagrass depth histogram (optional) ───────────────────────────────────
-  seagrass_depth <- data.frame(id = integer(0), depth = numeric(0))
-
-  if (nrow(seagrass_depth) > 0) {
-    p_seagrass <- ggplot2::ggplot(
-      seagrass_depth,
-      ggplot2::aes(x = depth)
-    ) +
-      ggplot2::geom_histogram(
-        binwidth = 0.5, fill = "#00AA00", colour = "darkgreen",
-        alpha = 0.75, linewidth = 0.3
-      ) +
-      ggplot2::geom_vline(
-        xintercept = mean(seagrass_depth$depth, na.rm = TRUE),
-        colour = "darkgreen", linetype = "dashed", linewidth = 0.6
-      ) +
-      ggplot2::scale_x_continuous(
-        breaks       = function(x) seq(floor(min(x)), ceiling(max(x)), by = 2),
-        minor_breaks = NULL
-      ) +
-      ggplot2::labs(
-        title    = "Seagrass depth distribution",
-        subtitle = paste0("Mean: ", round(mean(seagrass_depth$depth, na.rm = TRUE), 1), " m"),
-        x        = "Depth (m)",
-        y        = "Count"
-      ) +
-      ggplot2::theme_minimal(base_size = 10) +
-      ggplot2::theme(
-        plot.title    = ggplot2::element_text(face = "bold"),
-        plot.subtitle = ggplot2::element_text(colour = "grey50")
+  p_out <- (p_benthic | p_geomorph) +
+    patchwork::plot_annotation(
+      title    = "Depth distributions by habitat class",
+      subtitle = paste("ROI:", paste(roi_coords, collapse = " | ")),
+      theme    = ggplot2::theme(
+        plot.title    = ggplot2::element_text(size = 13, face = "bold", hjust = 0.5),
+        plot.subtitle = ggplot2::element_text(size = 9,  colour = "grey50", hjust = 0.5)
       )
+    )
 
-    p_out <- (p_benthic | p_geomorph) /
-      p_seagrass +
-      patchwork::plot_layout(heights = c(1.5, 1)) +
-      patchwork::plot_annotation(
-        title    = "Depth distributions by habitat class",
-        subtitle = paste("ROI:", paste(roi_coords, collapse = " | ")),
-        theme    = ggplot2::theme(
-          plot.title    = ggplot2::element_text(size = 13, face = "bold", hjust = 0.5),
-          plot.subtitle = ggplot2::element_text(size = 9,  colour = "grey50", hjust = 0.5)
-        )
-      )
-  } else {
-    message("No seagrass found in ROI — skipping seagrass depth plot.")
-    p_out <- (p_benthic | p_geomorph) +
-      patchwork::plot_annotation(
-        title    = "Depth distributions by habitat class",
-        subtitle = paste("ROI:", paste(roi_coords, collapse = " | ")),
-        theme    = ggplot2::theme(
-          plot.title    = ggplot2::element_text(size = 13, face = "bold", hjust = 0.5),
-          plot.subtitle = ggplot2::element_text(size = 9,  colour = "grey50", hjust = 0.5)
-        )
-      )
-  }
 
   print(p_out)
   invisible(p_out)

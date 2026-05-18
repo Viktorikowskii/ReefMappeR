@@ -15,8 +15,7 @@ automatically.
 }
 \description{
 Produces boxplots showing the depth distribution of benthic and
-geomorphic habitat classes, and optionally a histogram for seagrass depth,
-from the output of \code{\link[=set_roi]{set_roi()}}.
+geomorphic habitat classes from the output of \code{\link[=set_roi]{set_roi()}}.
 }
 \examples{
 \dontrun{
