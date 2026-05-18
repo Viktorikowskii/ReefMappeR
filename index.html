@@ -66,8 +66,23 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest and produces habitat maps, depth statistics, water quality assessments, and change detection outputs for the Normalized Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).</p>
-<p><img src="reference/figures/example_habitat_map.png" alt="Example habitat map of the Whitsundays region (GBR)"><em>Benthic habitats and geomorphic zones of the Whitsundays region, Great Barrier Reef.</em></p>
+<p>ReefMappeR provides a streamlined workflow for researchers and students working with reef ecosystem data. Starting from a bounding box or a Sentinel-2 satellite image, the package automatically loads and crops bathymetry, benthic habitat, geomorphology, and seagrass data to your area of interest. It produces habitat maps, depth statistics, water quality assessments, and change detection outputs for the Normalized Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).</p>
+<p><img src="reference/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="550"></p>
+<p><br></p>
+<p><em>ReefMappeR workflow: from input data to habitat analysis, water quality assessment, and change detection.</em></p>
+</div>
+<div class="section level2">
+<h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
+</h2>
+<p><strong>Input flexibility</strong> — Define your area of interest via a bounding box or a Sentinel-2 satellite image.</p>
+<p><strong>Habitat analysis</strong> — Generate two-panel habitat maps, per-class area and depth statistics, and depth distribution plots using Allen Coral Atlas benthic and geomorphic classifications.</p>
+<p><strong>Water quality assessment</strong> — Estimate chlorophyll-a concentration (NDCI) and Total Suspended Sediments (TSS) directly from Sentinel-2 surface reflectance bands.</p>
+<p><strong>Change detection</strong> — Quantify and map pixel-wise change in NDCI and TSS between two time points to track reef condition over time.</p>
+</div>
+<div class="section level2">
+<h2 id="example-output">Example Output<a class="anchor" aria-label="anchor" href="#example-output"></a>
+</h2>
+<p><br><img src="reference/figures/example_habitat_map.png" alt="Example habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"><br><em>Benthic habitats and geomorphic zones of the Whitsundays region, Great Barrier Reef. Produced with <code><a href="reference/plot_habitat_map.html">plot_habitat_map()</a></code>.</em></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>

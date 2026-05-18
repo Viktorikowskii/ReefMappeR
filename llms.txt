@@ -12,13 +12,40 @@ ReefMappeR provides a streamlined workflow for researchers and students
 working with reef ecosystem data. Starting from a bounding box or a
 Sentinel-2 satellite image, the package automatically loads and crops
 bathymetry, benthic habitat, geomorphology, and seagrass data to your
-area of interest and produces habitat maps, depth statistics, water
+area of interest. It produces habitat maps, depth statistics, water
 quality assessments, and change detection outputs for the Normalized
 Difference Chlorophyll Index (NDCI) and Total Suspended Sediments (TSS).
 
-![Example habitat map of the Whitsundays region
-(GBR)](reference/figures/example_habitat_map.png)*Benthic habitats and
-geomorphic zones of the Whitsundays region, Great Barrier Reef.*
+![ReefMappeR workflow](reference/figures/Workflow_reefMappeR.png)
+
+  
+
+*ReefMappeR workflow: from input data to habitat analysis, water quality
+assessment, and change detection.*
+
+## Key Features
+
+**Input flexibility** — Define your area of interest via a bounding box
+or a Sentinel-2 satellite image.
+
+**Habitat analysis** — Generate two-panel habitat maps, per-class area
+and depth statistics, and depth distribution plots using Allen Coral
+Atlas benthic and geomorphic classifications.
+
+**Water quality assessment** — Estimate chlorophyll-a concentration
+(NDCI) and Total Suspended Sediments (TSS) directly from Sentinel-2
+surface reflectance bands.
+
+**Change detection** — Quantify and map pixel-wise change in NDCI and
+TSS between two time points to track reef condition over time.
+
+## Example Output
+
+  
+![Example habitat map](reference/figures/example_habitat_map.png)  
+*Benthic habitats and geomorphic zones of the Whitsundays region, Great
+Barrier Reef. Produced with
+[`plot_habitat_map()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_habitat_map.md).*
 
 ## Installation
 
