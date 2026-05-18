@@ -30,16 +30,7 @@ The benthic and geomorphic data are stored as individual tiles. `set_roi()` auto
 
 ## Workflow
 
-```
-set_roi()
-    ├── plot_habitat_map()
-    ├── habitat_summary()
-    ├── plot_depth_distribution()
-    ├── calc_ndci()               ──► assess_reef_change() ──► compare_ndci_change()
-    └── calculate_water_quality() ──► assess_reef_change() ──► compare_tss_change()
-```
-
-## Basic Usage
+<img src="man/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="400"/>## Basic Usage
 
 ### 1. Define your region of interest
 
