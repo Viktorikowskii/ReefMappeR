@@ -16,4 +16,4 @@ navbar:
 home:
   title: ReefMappeR
   description: Reef habitat mapping and analysis for the Great Barrier Reef
-
+  strip_header: true
