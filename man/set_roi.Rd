@@ -31,11 +31,10 @@ defining the ROI. Optional, alternative to \code{s2}.}
 \value{
 Named list with four elements:
 \describe{
-\item{bathymetry}{SpatRaster — bathymetry resampled to ACA grid (~10 m).}
-\item{benthic}{SpatRaster — mosaicked benthic habitat classes (~10 m).}
-\item{geomorph}{SpatRaster — mosaicked geomorphic classes (~10 m).}
-\item{seagrass}{SpatVector — cropped seagrass polygons, or NULL if none
-intersect the ROI.}
+\item{bathymetry}{SpatRaster. GEBCO bathymetry cropped and resampled to ACA grid (~10 m).}
+\item{benthic}{SpatRaster. Allen Coral Atlas benthic habitat classes cropped to ROI.}
+\item{geomorph}{SpatRaster. Allen Coral Atlas geomorphic zones cropped to ROI.}
+\item{seagrass}{SpatVector. UNEP-WCMC seagrass polygons clipped to ROI.}
 }
 }
 \description{
@@ -50,7 +49,7 @@ result <- set_roi(bbox = bbox)
 plot(result$benthic)
 
 \dontrun{
-#' s2_img <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
+s2_img <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                    package = "ReefMappeR"))
 result  <- set_roi(s2 = s2_img)
 plot(result$benthic)
