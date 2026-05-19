@@ -8,12 +8,22 @@ ReefMappeR provides a streamlined workflow for researchers and students working 
 
 For the full package documentation and tutorials visit the [ReefMappeR website](https://viktorikowskii.github.io/ReefMappeR/).
 
+
 ## Installation
 
 ```r
 # install.packages("devtools")
 devtools::install_github("Viktorikowskii/ReefMappeR")
 ```
+
+
+## Key Features
+- Automatic data loading and cropping to any GBR region
+- Habitat mapping using Allen Coral Atlas classifications  
+- Water quality assessment from Sentinel-2
+- Temporal change detection for NDCI and TSS
+
+
 
 ## Bundled Datasets
 
@@ -28,9 +38,11 @@ ReefMappeR ships with the following datasets for the Great Barrier Reef:
 
 The benthic and geomorphic data are stored as individual tiles. `set_roi()` automatically identifies and loads only the tiles that overlap with your region of interest.
 
+
 ## Workflow
 
 <img src="man/figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="500"/>
+
 
 ### 1. Define your region of interest
 
@@ -119,13 +131,21 @@ compare_tss_change(change_tss)
 | `compare_ndci_change()` | Classifies NDCI change into three categories and maps areas of chlorophyll-a increase, decrease, and no significant change |
 | `compare_tss_change()` | Classifies TSS change into three categories and maps areas of sediment increase, decrease, and no significant change |
 
+## Limitations
+- Spatial coverage limited to the Great Barrier Reef
+- Bathymetry resolution (~450 m) may not capture fine-scale depth variation
+- Water quality functions require Sentinel-2 Level-2A surface reflectance
+- Seagrass data (UNEP-WCMC) reflects known occurrence, not current distribution
+
 ## Dependencies
 
 `terra`, `sf`, `ggplot2`, `ggnewscale`, `dplyr`, `patchwork`, `gt`, `stringr`
 
 ## Acknowledgements
 
-This package was developed as part of the course *Introduction to Programming and Statistics for Remote Sensing and GIS* in the M.Sc. [EAGLE](https://eagle-science.org/) program at the University of Würzburg.
+Developed as part of the M.Sc. EAGLE program at the University of Würzburg.
+
+Contact: viktoria.veith@stud-mail.uni-wuerzburg.de
 
 ## License
 
