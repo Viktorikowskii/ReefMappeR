@@ -95,5 +95,6 @@ calc_ndci <- function(s2,
 
   ndci <- (rededge - red) / (rededge + red)
   names(ndci) <- "NDCI"
+  terra::plot(ndci, main = "NDCI (Chlorophyll-a proxy)")
   ndci
 }
