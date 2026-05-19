@@ -71,7 +71,7 @@ region of interest.
 
 ## Workflow
 
-![ReefMappeR workflow](Workflow_reefMappeR.png)
+![ReefMappeR workflow](figures/Workflow_reefMappeR.png)
 
   
 
@@ -118,7 +118,7 @@ UNEP-WCMC are overlaid as green points on both panels.
 plot_habitat_map(result)
 ```
 
-![Habitat map](habitat_map.png)
+![Habitat map](figures/habitat_map.png)
 
 **Allen Coral Atlas benthic classes:** Sand, Rubble, Rock, Seagrass,
 Coral/Algae, Microalgal Mats. Full class descriptions and colour scheme:
@@ -145,7 +145,7 @@ out$stats$benthic  # raw benthic statistics as data frame
 out$stats$geomorph # raw geomorphic statistics as data frame
 ```
 
-![Habitat summary table](habitat_summary_table.png)
+![Habitat summary table](figures/habitat_summary_table.png)
 
 ------------------------------------------------------------------------
 
@@ -163,7 +163,7 @@ rubble.
 plot_depth_distribution(result)
 ```
 
-![Depth distribution](depth_distribution.png)
+![Depth distribution](figures/depth_distribution.png)
 
 ------------------------------------------------------------------------
 
@@ -193,7 +193,7 @@ s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 ndci <- calc_ndci(s2)
 ```
 
-![NDCI map](ndci.png)
+![NDCI map](figures/ndci.png)
 
 ### Total Suspended Sediments (TSS)
 
@@ -208,7 +208,7 @@ cause physical smothering of reef communities.
 tss <- calculate_water_quality(s2)
 ```
 
-![TSS map](tss.png)
+![TSS map](figures/tss.png)
 
 ------------------------------------------------------------------------
 
@@ -239,7 +239,7 @@ change_ndci <- assess_reef_change(ndci_24, ndci_25)
 compare_ndci_change(change_ndci)
 ```
 
-![NDCI change](ndci_change.png)
+![NDCI change](figures/ndci_change.png)
 
 ### TSS Change (2024–2025)
 
@@ -259,7 +259,7 @@ change_tss <- assess_reef_change(tss_24, tss_25)
 compare_tss_change(change_tss)
 ```
 
-![TSS change](tss_change.png)
+![TSS change](figures/tss_change.png)
 
 ------------------------------------------------------------------------
 
