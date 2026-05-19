@@ -12,13 +12,13 @@
 #' @details
 #' NDCI change is classified into three classes:
 #' \itemize{
-#'   \item \strong{Chl-a increase} (NDCI change > +threshold): Indicates
+#'   \item Chl-a increase (NDCI change > +threshold): Indicates
 #'     elevated phytoplankton biomass, potentially associated with
 #'     eutrophication, algal blooms, or increased nutrient input.
-#'   \item \strong{No significant change} (|NDCI change| <= threshold):
+#'   \item No significant change (|NDCI change| <= threshold):
 #'     Change within the defined threshold, interpreted as natural variability
 #'     or sensor noise rather than an ecologically meaningful signal.
-#'   \item \strong{Chl-a decrease} (NDCI change < -threshold): Indicates
+#'   \item Chl-a decrease (NDCI change < -threshold): Indicates
 #'     reduced phytoplankton biomass, potentially reflecting improved water
 #'     clarity or reduced nutrient availability.
 #' }

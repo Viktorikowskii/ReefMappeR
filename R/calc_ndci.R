@@ -17,7 +17,7 @@
 #' @details
 #' NDCI is calculated as: \deqn{NDCI = \frac{B5 - B4}{B5 + B4}}
 #'
-#' **Value interpretation:**
+#' Value interpretation:
 #' \itemize{
 #'   \item{-1 to 0: Low chlorophyll-a, clear water or non-productive conditions}
 #'   \item{0 to 0.3: Moderate chlorophyll-a, typical coastal waters}
@@ -27,7 +27,7 @@
 #' Exact chlorophyll-a concentrations require site-specific calibration with
 #' in-situ measurements.
 #'
-#'#' @references
+#' @references
 #' Mishra, S. & Mishra, D.R. (2012). Normalized difference chlorophyll index:
 #' A novel model for remote sensing of chlorophyll-a concentration in turbid
 #' productive waters. \emph{Remote Sensing of Environment}, 117, 394--406.

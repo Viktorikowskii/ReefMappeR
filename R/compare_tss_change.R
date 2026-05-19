@@ -5,8 +5,8 @@
 #' decrease in suspended sediments.
 #'
 #' @param tss_change SpatRaster. Output of [assess_reef_change()] applied to
-#'   two TSS rasters from [calculate_water_quality()].
-#' @param threshold Numeric. Minimum absolute TSS change (g/m³) to be
+#'   two TSS rasters from [calc_tss()].
+#' @param threshold Numeric. Minimum absolute TSS change (g/m3) to be
 #'   considered significant. Default is 0.5. See Details.
 #'
 #' @return Invisible NULL. Called for side effects (plot).
@@ -14,17 +14,17 @@
 #' @details
 #' TSS change is classified into three classes:
 #' \itemize{
-#'   \item \strong{TSS increase} (change > +threshold): Indicates increased
+#'   \item TSS increase (change > +threshold): Indicates increased
 #'     suspended sediment load, potentially associated with storm events,
 #'     dredging, or increased runoff from land.
-#'   \item \strong{No significant change} (|change| <= threshold): Change
+#'   \item No significant change (|change| <= threshold): Change
 #'     within the defined threshold, interpreted as natural variability.
-#'   \item \strong{TSS decrease} (change < -threshold): Indicates reduced
+#'   \item TSS decrease (change < -threshold): Indicates reduced
 #'     suspended sediment load, potentially reflecting calmer conditions or
 #'     reduced terrestrial input.
 #' }
 #'
-#' The default threshold of 0.5 g/m³ is an exploratory convention. No
+#' The default threshold of 0.5 g/m3 is an exploratory convention. No
 #' universally established threshold exists for TSS change classification.
 #' Users are encouraged to adjust based on local conditions and in-situ
 #' measurements.
@@ -34,7 +34,7 @@
 #' terrestrial runoff on coral reefs. \emph{PLoS ONE}, 8(11), e78689.
 #' \doi{10.1371/journal.pone.0078689}
 #'
-#' @seealso [calculate_water_quality()], [assess_reef_change()]
+#' @seealso [calc_tss()], [assess_reef_change()]
 #'
 #' @importFrom terra classify plot
 #' @export
@@ -45,8 +45,8 @@
 #'                                    package = "ReefMappeR"))
 #' s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 #'                                    package = "ReefMappeR"))
-#' tss_24 <- calculate_water_quality(s2_24)
-#' tss_25 <- calculate_water_quality(s2_25)
+#' tss_24 <- calc_tss(s2_24)
+#' tss_25 <- calc_tss(s2_25)
 #' change <- assess_reef_change(tss_24, tss_25)
 #' compare_tss_change(change)
 #' compare_tss_change(change, threshold = 1.0)

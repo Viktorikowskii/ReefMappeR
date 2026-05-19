@@ -30,12 +30,12 @@
 #' \dontrun{
 #' s2 <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 #'                                package = "ReefMappeR"))
-#' tss <- calculate_water_quality(s2)
+#' tss <- calc_tss(s2)
 #' }
 #'
 #' @importFrom terra mask
 #' @export
-calculate_water_quality <- function(s2) {
+calc_tss <- function(s2) {
   B2 <- s2[["B2"]] / 10000  # Blue
   B3 <- s2[["B3"]] / 10000  # Green
   B4 <- s2[["B4"]] / 10000  # Red
