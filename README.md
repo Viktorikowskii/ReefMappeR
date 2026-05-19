@@ -88,7 +88,7 @@ s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 ndci <- calc_ndci(s2)
 
 # Total Suspended Sediments (TSS)
-tss  <- calculate_water_quality(s2)
+tss  <- calc_tss(s2)
 ```
 
 ![NDCI map showing chlorophyll-a distribution.](man/figures/ndci.png)
@@ -108,8 +108,8 @@ change_ndci <- assess_reef_change(calc_ndci(s2_24), calc_ndci(s2_25))
 compare_ndci_change(change_ndci)
 
 # TSS change detection
-change_tss <- assess_reef_change(calculate_water_quality(s2_24),
-                                  calculate_water_quality(s2_25))
+change_tss <- assess_reef_change(calc_tss(s2_24),
+                                  calc_tss(s2_25))
 compare_tss_change(change_tss)
 ```
 
@@ -126,7 +126,7 @@ compare_tss_change(change_tss)
 | `habitat_summary()` | Computes per-class area, percentage cover, and depth statistics for all habitat classes and returns a styled summary table |
 | `plot_depth_distribution()` | Visualises the depth range of each benthic and geomorphic habitat class as boxplots using GEBCO bathymetry |
 | `calc_ndci()` | Calculates the Normalized Difference Chlorophyll Index (NDCI) from Sentinel-2 bands B4 and B5 as a proxy for chlorophyll-a concentration |
-| `calculate_water_quality()` | Estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 surface reflectance bands |
+| `calc_tss()` | Estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 surface reflectance bands |
 | `assess_reef_change()` | Computes the pixel-wise difference between two rasters of the same variable at different time points |
 | `compare_ndci_change()` | Classifies NDCI change into three categories and maps areas of chlorophyll-a increase, decrease, and no significant change |
 | `compare_tss_change()` | Classifies TSS change into three categories and maps areas of sediment increase, decrease, and no significant change |
