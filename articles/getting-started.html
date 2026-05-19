@@ -295,13 +295,13 @@ eutrophication or algal bloom</li>
 <div class="section level3">
 <h3 id="total-suspended-sediments-tss">Total Suspended Sediments (TSS)<a class="anchor" aria-label="anchor" href="#total-suspended-sediments-tss"></a>
 </h3>
-<p><code><a href="../reference/calculate_water_quality.html">calculate_water_quality()</a></code> estimates Total Suspended
+<p><code>calculate_water_quality()</code> estimates Total Suspended
 Sediments (TSS) in g/m³ from Sentinel-2 bands B3 (green), B4 (red), and
 B8 (NIR). TSS is a key indicator of water turbidity affecting light
 availability for corals and seagrass and can cause physical smothering
 of reef communities.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tss</span> <span class="op">&lt;-</span> <span class="fu">calculate_water_quality</span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/tss.png" alt="TSS map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <hr>
 </div>
@@ -340,8 +340,8 @@ dredging activity, or intensified terrestrial runoff.
 <code><a href="../reference/compare_tss_change.html">compare_tss_change()</a></code> classifies the change using a
 threshold of ±0.5 g/m³ by default.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tss_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span></span>
-<span><span class="va">tss_25</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">tss_24</span> <span class="op">&lt;-</span> <span class="fu">calculate_water_quality</span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span></span>
+<span><span class="va">tss_25</span> <span class="op">&lt;-</span> <span class="fu">calculate_water_quality</span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">change_tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="va">tss_24</span>, <span class="va">tss_25</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compare_tss_change.html">compare_tss_change</a></span><span class="op">(</span><span class="va">change_tss</span><span class="op">)</span></span></code></pre></div>

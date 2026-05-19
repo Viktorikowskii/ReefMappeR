@@ -3,10 +3,10 @@
 ## All functions
 
 - [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md)
-  : Assess reef change between two NDCI rasters
+  : Assess temporal change between two rasters
 - [`calc_ndci()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_ndci.md)
   : Calculate Normalized Difference Chlorophyll Index (NDCI)
-- [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md)
+- [`calc_tss()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_tss.md)
   : Calculate Total Suspended Sediments (TSS) from Sentinel-2
 - [`compare_ndci_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/compare_ndci_change.md)
   : Temporal NDCI Change Classification
@@ -17,6 +17,7 @@
 - [`plot_depth_distribution()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_depth_distribution.md)
   : Plot depth distributions by habitat class
 - [`plot_habitat_map()`](https://viktorikowskii.github.io/ReefMappeR/reference/plot_habitat_map.md)
-  : Side-by-side habitat maps: benthic habitats and geomorphology
+  : Two-panel habitat map with bathymetry, benthic habitats, geomorphic
+  zones, and seagrass
 - [`set_roi()`](https://viktorikowskii.github.io/ReefMappeR/reference/set_roi.md)
   : Crop datasets to a specified region of interest

@@ -197,11 +197,10 @@ ndci <- calc_ndci(s2)
 
 ### Total Suspended Sediments (TSS)
 
-[`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md)
-estimates Total Suspended Sediments (TSS) in g/m³ from Sentinel-2 bands
-B3 (green), B4 (red), and B8 (NIR). TSS is a key indicator of water
-turbidity affecting light availability for corals and seagrass and can
-cause physical smothering of reef communities.
+`calculate_water_quality()` estimates Total Suspended Sediments (TSS) in
+g/m³ from Sentinel-2 bands B3 (green), B4 (red), and B8 (NIR). TSS is a
+key indicator of water turbidity affecting light availability for corals
+and seagrass and can cause physical smothering of reef communities.
 
 ``` r
 

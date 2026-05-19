@@ -29,15 +29,15 @@ Invisible NULL. Called for side effects (plot).
 
 NDCI change is classified into three classes:
 
-- **Chl-a increase** (NDCI change \> +threshold): Indicates elevated
+- Chl-a increase (NDCI change \> +threshold): Indicates elevated
   phytoplankton biomass, potentially associated with eutrophication,
   algal blooms, or increased nutrient input.
 
-- **No significant change** (\|NDCI change\| \<= threshold): Change
-  within the defined threshold, interpreted as natural variability or
-  sensor noise rather than an ecologically meaningful signal.
+- No significant change (\|NDCI change\| \<= threshold): Change within
+  the defined threshold, interpreted as natural variability or sensor
+  noise rather than an ecologically meaningful signal.
 
-- **Chl-a decrease** (NDCI change \< -threshold): Indicates reduced
+- Chl-a decrease (NDCI change \< -threshold): Indicates reduced
   phytoplankton biomass, potentially reflecting improved water clarity
   or reduced nutrient availability.
 

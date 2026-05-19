@@ -57,11 +57,11 @@ decrease in suspended sediments.</p>
 
 <dl><dt id="arg-tss-change">tss_change<a class="anchor" aria-label="anchor" href="#arg-tss-change"></a></dt>
 <dd><p>SpatRaster. Output of <code><a href="assess_reef_change.html">assess_reef_change()</a></code> applied to
-two TSS rasters from <code><a href="calculate_water_quality.html">calculate_water_quality()</a></code>.</p></dd>
+two TSS rasters from <code><a href="calc_tss.html">calc_tss()</a></code>.</p></dd>
 
 
 <dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
-<dd><p>Numeric. Minimum absolute TSS change (g/m³) to be
+<dd><p>Numeric. Minimum absolute TSS change (g/m3) to be
 considered significant. Default is 0.5. See Details.</p></dd>
 
 </dl></div>
@@ -71,15 +71,15 @@ considered significant. Default is 0.5. See Details.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>TSS change is classified into three classes:</p><ul><li><p><strong>TSS increase</strong> (change &gt; +threshold): Indicates increased
+    <p>TSS change is classified into three classes:</p><ul><li><p>TSS increase (change &gt; +threshold): Indicates increased
 suspended sediment load, potentially associated with storm events,
 dredging, or increased runoff from land.</p></li>
-<li><p><strong>No significant change</strong> (|change| &lt;= threshold): Change
+<li><p>No significant change (|change| &lt;= threshold): Change
 within the defined threshold, interpreted as natural variability.</p></li>
-<li><p><strong>TSS decrease</strong> (change &lt; -threshold): Indicates reduced
+<li><p>TSS decrease (change &lt; -threshold): Indicates reduced
 suspended sediment load, potentially reflecting calmer conditions or
 reduced terrestrial input.</p></li>
-</ul><p>The default threshold of 0.5 g/m³ is an exploratory convention. No
+</ul><p>The default threshold of 0.5 g/m3 is an exploratory convention. No
 universally established threshold exists for TSS change classification.
 Users are encouraged to adjust based on local conditions and in-situ
 measurements.</p>
@@ -92,7 +92,7 @@ terrestrial runoff on coral reefs. <em>PLoS ONE</em>, 8(11), e78689.
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="calculate_water_quality.html">calculate_water_quality()</a></code>, <code><a href="assess_reef_change.html">assess_reef_change()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="calc_tss.html">calc_tss()</a></code>, <code><a href="assess_reef_change.html">assess_reef_change()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -102,8 +102,8 @@ terrestrial runoff on coral reefs. <em>PLoS ONE</em>, 8(11), e78689.
 <span class="r-in"><span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">s2_25</span>  <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span></span>
 <span class="r-in"><span>                                   package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">tss_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">tss_25</span> <span class="op">&lt;-</span> <span class="fu"><a href="calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tss_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="calc_tss.html">calc_tss</a></span><span class="op">(</span><span class="va">s2_24</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tss_25</span> <span class="op">&lt;-</span> <span class="fu"><a href="calc_tss.html">calc_tss</a></span><span class="op">(</span><span class="va">s2_25</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">change</span> <span class="op">&lt;-</span> <span class="fu"><a href="assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="va">tss_24</span>, <span class="va">tss_25</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compare_tss_change</span><span class="op">(</span><span class="va">change</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">compare_tss_change</span><span class="op">(</span><span class="va">change</span>, threshold <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span></span></span>

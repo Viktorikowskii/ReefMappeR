@@ -17,11 +17,11 @@ compare_tss_change(tss_change, threshold = 0.5)
   SpatRaster. Output of
   [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md)
   applied to two TSS rasters from
-  [`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md).
+  [`calc_tss()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_tss.md).
 
 - threshold:
 
-  Numeric. Minimum absolute TSS change (g/m³) to be considered
+  Numeric. Minimum absolute TSS change (g/m3) to be considered
   significant. Default is 0.5. See Details.
 
 ## Value
@@ -32,18 +32,18 @@ Invisible NULL. Called for side effects (plot).
 
 TSS change is classified into three classes:
 
-- **TSS increase** (change \> +threshold): Indicates increased suspended
+- TSS increase (change \> +threshold): Indicates increased suspended
   sediment load, potentially associated with storm events, dredging, or
   increased runoff from land.
 
-- **No significant change** (\|change\| \<= threshold): Change within
-  the defined threshold, interpreted as natural variability.
+- No significant change (\|change\| \<= threshold): Change within the
+  defined threshold, interpreted as natural variability.
 
-- **TSS decrease** (change \< -threshold): Indicates reduced suspended
+- TSS decrease (change \< -threshold): Indicates reduced suspended
   sediment load, potentially reflecting calmer conditions or reduced
   terrestrial input.
 
-The default threshold of 0.5 g/m³ is an exploratory convention. No
+The default threshold of 0.5 g/m3 is an exploratory convention. No
 universally established threshold exists for TSS change classification.
 Users are encouraged to adjust based on local conditions and in-situ
 measurements.
@@ -56,7 +56,7 @@ terrestrial runoff on coral reefs. *PLoS ONE*, 8(11), e78689.
 
 ## See also
 
-[`calculate_water_quality()`](https://viktorikowskii.github.io/ReefMappeR/reference/calculate_water_quality.md),
+[`calc_tss()`](https://viktorikowskii.github.io/ReefMappeR/reference/calc_tss.md),
 [`assess_reef_change()`](https://viktorikowskii.github.io/ReefMappeR/reference/assess_reef_change.md)
 
 ## Examples
@@ -67,8 +67,8 @@ s2_24  <- terra::rast(system.file("extdata", "Sentinel2_2024_example.tif",
                                    package = "ReefMappeR"))
 s2_25  <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
                                    package = "ReefMappeR"))
-tss_24 <- calculate_water_quality(s2_24)
-tss_25 <- calculate_water_quality(s2_25)
+tss_24 <- calc_tss(s2_24)
+tss_25 <- calc_tss(s2_25)
 change <- assess_reef_change(tss_24, tss_25)
 compare_tss_change(change)
 compare_tss_change(change, threshold = 1.0)
