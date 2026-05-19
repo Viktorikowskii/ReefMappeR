@@ -73,7 +73,7 @@ overlap with your region of interest.
 
 ## Workflow
 
-<img src="Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="600"/>
+<img src="figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="600"/>
 
 <br>
 
@@ -114,7 +114,7 @@ Seagrass polygons from UNEP-WCMC are overlaid as green points on both panels.
 plot_habitat_map(result)
 ```
 
-<img src="habitat_map.png" alt="Habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/habitat_map.png" alt="Habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 **Allen Coral Atlas benthic classes:** Sand, Rubble, Rock, Seagrass,
 Coral/Algae, Microalgal Mats. Full class descriptions and colour scheme:
@@ -139,7 +139,7 @@ out$stats$benthic  # raw benthic statistics as data frame
 out$stats$geomorph # raw geomorphic statistics as data frame
 ```
 
-<img src="habitat_summary_table.png" alt="Habitat summary table" width="1000" height="600" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/habitat_summary_table.png" alt="Habitat summary table" width="1000" height="600" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ---
 
@@ -155,7 +155,7 @@ to sand or rubble.
 plot_depth_distribution(result)
 ```
 
-<img src="depth_distribution.png" alt="Depth distribution" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/depth_distribution.png" alt="Depth distribution" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ---
 
@@ -182,7 +182,7 @@ s2   <- terra::rast(system.file("extdata", "Sentinel2_example.tif",
 ndci <- calc_ndci(s2)
 ```
 
-<img src="ndci.png" alt="NDCI map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/ndci.png" alt="NDCI map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ### Total Suspended Sediments (TSS)
 
@@ -195,7 +195,7 @@ seagrass and can cause physical smothering of reef communities.
 tss <- calculate_water_quality(s2)
 ```
 
-<img src="tss.png" alt="TSS map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/tss.png" alt="TSS map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ---
 
@@ -224,7 +224,7 @@ change_ndci <- assess_reef_change(ndci_24, ndci_25)
 compare_ndci_change(change_ndci)
 ```
 
-<img src="ndci_change.png" alt="NDCI change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/ndci_change.png" alt="NDCI change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ### TSS Change (2024–2025)
 
@@ -241,7 +241,7 @@ change_tss <- assess_reef_change(tss_24, tss_25)
 compare_tss_change(change_tss)
 ```
 
-<img src="tss_change.png" alt="TSS change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
+<img src="figures/tss_change.png" alt="TSS change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"/>
 
 ---
 

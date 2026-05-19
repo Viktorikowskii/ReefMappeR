@@ -185,7 +185,7 @@ loads only the tiles that overlap with your region of interest.</p>
 <div class="section level2">
 <h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
 </h2>
-<p><img src="Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="600"></p>
+<p><img src="figures/Workflow_reefMappeR.png" alt="ReefMappeR workflow" width="600"></p>
 <p><br></p>
 <p><em>ReefMappeR workflow: from input data to habitat analysis, water
 quality assessment, and change detection.</em></p>
@@ -230,7 +230,7 @@ scheme</a>. Seagrass polygons from UNEP-WCMC are overlaid as green
 points on both panels.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_habitat_map.html">plot_habitat_map</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p><img src="habitat_map.png" alt="Habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/habitat_map.png" alt="Habitat map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <p><strong>Allen Coral Atlas benthic classes:</strong> Sand, Rubble,
 Rock, Seagrass, Coral/Algae, Microalgal Mats. Full class descriptions
 and colour scheme: <a href="https://allencoralatlas.org/methods/" class="external-link">allencoralatlas.org/methods</a></p>
@@ -252,7 +252,7 @@ summary table.</p>
 <span><span class="va">out</span><span class="op">$</span><span class="va">table</span>          <span class="co"># styled summary table</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">benthic</span>  <span class="co"># raw benthic statistics as data frame</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">stats</span><span class="op">$</span><span class="va">geomorph</span> <span class="co"># raw geomorphic statistics as data frame</span></span></code></pre></div>
-<p><img src="habitat_summary_table.png" alt="Habitat summary table" width="1000" height="600" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/habitat_summary_table.png" alt="Habitat summary table" width="1000" height="600" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <hr>
 </div>
 <div class="section level2">
@@ -265,7 +265,7 @@ reveals the ecological zonation of reef habitats — for example, at what
 depths coral and algae occur compared to sand or rubble.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_depth_distribution.html">plot_depth_distribution</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p><img src="depth_distribution.png" alt="Depth distribution" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/depth_distribution.png" alt="Depth distribution" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <hr>
 </div>
 <div class="section level2">
@@ -296,7 +296,7 @@ eutrophication or algal bloom</li>
 <code class="sourceCode R"><span><span class="va">s2</span>   <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Sentinel2_example.tif"</span>,</span>
 <span>                                 package <span class="op">=</span> <span class="st">"ReefMappeR"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_ndci.html">calc_ndci</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ndci.png" alt="NDCI map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/ndci.png" alt="NDCI map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 </div>
 <div class="section level3">
 <h3 id="total-suspended-sediments-tss">Total Suspended Sediments (TSS)<a class="anchor" aria-label="anchor" href="#total-suspended-sediments-tss"></a>
@@ -308,7 +308,7 @@ availability for corals and seagrass and can cause physical smothering
 of reef communities.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_water_quality.html">calculate_water_quality</a></span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tss.png" alt="TSS map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/tss.png" alt="TSS map" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <hr>
 </div>
 </div>
@@ -335,7 +335,7 @@ categories using a user-defined threshold (default ±0.1):</p>
 <span></span>
 <span><span class="va">change_ndci</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="va">ndci_24</span>, <span class="va">ndci_25</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compare_ndci_change.html">compare_ndci_change</a></span><span class="op">(</span><span class="va">change_ndci</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ndci_change.png" alt="NDCI change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/ndci_change.png" alt="NDCI change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 </div>
 <div class="section level3">
 <h3 id="tss-change-20242025">TSS Change (2024–2025)<a class="anchor" aria-label="anchor" href="#tss-change-20242025"></a>
@@ -351,7 +351,7 @@ threshold of ±0.5 g/m³ by default.</p>
 <span></span>
 <span><span class="va">change_tss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assess_reef_change.html">assess_reef_change</a></span><span class="op">(</span><span class="va">tss_24</span>, <span class="va">tss_25</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compare_tss_change.html">compare_tss_change</a></span><span class="op">(</span><span class="va">change_tss</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tss_change.png" alt="TSS change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
+<p><img src="figures/tss_change.png" alt="TSS change" width="750" style="border: 1px solid #ddd; border-radius: 6px; padding: 4px;"></p>
 <hr>
 </div>
 </div>
