@@ -27,7 +27,7 @@ body {
 }
 /* Workflow diagram size */
 .contents img[alt="ReefMappeR workflow"] {
-  max-width: 50px;
+  max-width: 250px;
 }
 /* Example habitat map - left aligned with border */
 .contents img[alt*="Example habitat map"] {
